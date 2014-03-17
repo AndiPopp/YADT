@@ -1,0 +1,156 @@
+/**
+ * 
+ */
+package eu.sffi.dsa4.kalender;
+
+/**
+ * @author Andi Popp
+ * Eine Klasse für Tage nach dem aventurischen Kalender. Auf Stunden genau gerechnet (genauer wäre in Aventurien wohl unüblich). 
+ * Der Fixpunkt des Timestamps ist der 1. Praios 0 BF, 1. Stunde
+ */
+public class AventurischesDatum {
+	/**
+	 * Der time stamp in Stunden seit dem 1. Praios 0 BF 0:00
+	 */
+	long timestamp;
+	
+	/**
+	 * @param timestamp
+	 */
+	public AventurischesDatum(long timestamp) {
+		if (timestamp == 0); 
+		this.timestamp = timestamp;
+	}
+	
+	/**
+	 * Erstellt ein neues aventurisches Datum
+	 * @param jahr Das Jahr bezüglich Bosparans Fall
+	 * @param monat Der numerische Monat (1 = Praios, 30 = Rahja)
+	 * @param tag Der Tag
+	 * @param stunde Die numerische Stunde (1 = Praiosstunde (Geisterstunde)
+	 */
+	public AventurischesDatum(int jahr, int monat, int tag, int stunde){
+		//Eingaben überprüfen
+		if (monat < 1 || monat > 13) throw new IllegalArgumentException("Fehler beim Konstruieren eines aventurischen Datums. Monat muss zwischen 1 und 13 liegen.");
+		if (tag < 1 || tag > 30) throw new IllegalArgumentException("Fehler beim Konstruieren eines aventurischen Datums. Tag muss zwischen 1 und 30 liegen.");
+		if (monat == 13 && tag > 5) throw new IllegalArgumentException("Fehler beim Konstruieren eines aventurischen Datums. Es gibt nur 5 namenlose Tage.");
+		if (stunde < 1 || stunde > 24) throw new IllegalArgumentException("Fehler beim Konstruieren eines aventurischen Datums. Stunde muss zwischen 1 und 24 liegen.");
+		
+		//timestamp initialisieren
+		this.timestamp = 0;
+		
+		//timestamp berechenen
+		if (jahr >= 0){
+			this.timestamp += jahr * 365 * 24;
+			this.timestamp += (monat-1) * 30 * 24;
+			this.timestamp += (tag-1) * 24;
+			this.timestamp += (stunde-1);
+		}
+		else{
+			this.timestamp += (jahr+1) * 365 * 24;
+			if (monat < 13) {
+				this.timestamp -= ((12-monat) * 30 +5) * 24;
+				this.timestamp -= (30-tag) * 24;
+			}
+			else{
+				this.timestamp -= (5-tag) * 24;
+				
+			}
+			this.timestamp -= 25-stunde;
+			
+		}
+	}
+
+	/**
+	 * Gibt den time stamp zurück
+	 * @return der time stamp
+	 */
+	public long getTimestamp(){
+		return this.timestamp;
+	}
+	
+	/**
+	 * Das Jahr des Datums bzgl. Bosparans Fall
+	 * @return Das Jahr des Datums bzgl. Bosparans Fall
+	 */
+	public long getNumerischesJahr(){
+		if (this.timestamp<0) return this.timestamp/(365*24)-1;
+		return this.timestamp/(365*24);
+	}
+	
+	/**
+	 * Der Monat des Datums als Zahl
+	 * @return Monat des Datums als Zahl
+	 */
+	public byte getNumerischenMonat(){
+		//vor BF
+		if (this.timestamp<0) {
+			int tage = (int) this.timestamp % (365*24)/24;
+			//namenlose tage
+			if (tage > -5) return 13;
+			//vor namenlosen tagen
+			return (byte) (12+((tage+5)/30));
+		}
+		//nach BF
+		return (byte) ((this.timestamp % (365*24))/(30*24) + 1);
+	}
+	
+	/**
+	 * Der Monat als Wort
+	 * @return Der Monat als Wort
+	 */
+	public String getMonat(){
+		return translateMonat(getNumerischenMonat());
+	}
+	
+	/**
+	 * Übersetzt einen numerischen Monat in einen Göttermonat
+	 * @param monat
+	 * @return Ein String der die dreibuchstabige Abkürzung des Gottes darstellt
+	 */
+	public static String translateMonat(byte monat){
+		switch (monat){
+			case  1: return "PRA";
+			case  2: return "RON";
+			case  3: return "EFF";
+			case  4: return "TRA";
+			case  5: return "BOR";
+			case  6: return "HES";
+			case  7: return "FIR";
+			case  8: return "TSA";
+			case  9: return "PHE";
+			case 10: return "PER";
+			case 11: return "ING";
+			case 12: return "RAH";
+			default: throw new IllegalArgumentException("Fehler beim Übersetzen eines Monats. Muss zwischen 1 und 13 liegen");
+		}
+	}
+	
+	/**
+	 * Der numerische Tag
+	 * @return Der numerische Tag
+	 */
+	public byte getNumerischenTag(){
+		//vor BF
+		//TODO
+		
+		//nach BF
+		return (byte) (this.timestamp % (365*24) % (30*24) / 24 + 1);
+	}
+	
+	/**
+	 * Die numerische Stunde
+	 * @return Die numerische Stunde
+	 */
+	public byte getNumerischeStunde(){
+		//vor BF
+		//TODO
+		
+		//nach BF
+		return (byte) (this.timestamp % (365*24) % (30*24) % 24 + 1);
+	}
+
+	public String toString(){
+		return getNumerischenTag()+". "+getMonat()+" "+getNumerischesJahr()+" BF, "+getNumerischeStunde()+". Stunde";
+	}
+}
