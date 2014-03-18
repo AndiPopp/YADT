@@ -10,8 +10,7 @@ public class ElixierArt {
 	public static final byte GRUPPE_INANIMATICA = 5;
 	public static final byte GRUPPE_MUTANDICA = 6;
 	public static final byte GRUPPE_VIRTURICA = 7;
-	
-	
+
 	/**
 	 * Der Name der Art des Elixiers
 	 */
@@ -25,10 +24,24 @@ public class ElixierArt {
 	/**
 	 * Erschwernis bei der Analyse des Tranks
 	 */
-	byte analyseModifikator;
-	
+	int analyseModifikator;
+
 	/**
-	 * Liste der typischen Möglichkeiten bei Fehlschlägen
+	 * @param name
+	 * @param gruppe
+	 * @param analyseModifikator
 	 */
-	int[] misslingensVorschlaege;
+	public ElixierArt(String name, byte gruppe, int analyseModifikator) {
+		this.name = name;
+		this.gruppe = gruppe;
+		this.analyseModifikator = analyseModifikator;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ElixierArt)) return false;
+		return this.name.equals(((ElixierArt)obj).name);
+	}
+	
+	
 }
