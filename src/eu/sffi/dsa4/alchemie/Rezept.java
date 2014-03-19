@@ -8,15 +8,23 @@ import org.apache.commons.codec.binary.Base64;
 import eu.sffi.dsa4.held.talente.WuerfelTalent;
 import eu.sffi.dsa4.held.talente.WuerfelTalentWert;
 import eu.sffi.dsa4.kalender.AventurischesDatum;
+import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 import eu.sffi.dsa4.util.VerboseOut;
+import eu.sffi.dsa4.wuerfel.W3Wurf;
+import eu.sffi.dsa4.wuerfel.W6Wurf;
 import eu.sffi.dsa4.wuerfel.Wuerfel;
 
 /**
  * @author Andi Popp
  *
  */
-public class Rezept implements Comparable<Rezept>{
+public class Rezept implements Named<Rezept>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8991166731732262322L;
 	public static final byte LABOR_ARCHAISCH = 0;
 	public static final byte LABOR_HEXENKUECHE = 1;
 	public static final byte LABOR_ALCHEMIELABOR = 2;
@@ -29,12 +37,12 @@ public class Rezept implements Comparable<Rezept>{
 	/**
 	 * Der Name des Rezepts
 	 */
-	final String name;
+	public final String name;
 	
 	/**
 	 * Trank welcher das Ergebnis der Rezeptur ist
 	 */
-	final ElixierArt elixierArt;
+	public final ElixierArt elixierArt;
 	
 //	TODO Zutatenrechner
 //	/**
@@ -45,29 +53,32 @@ public class Rezept implements Comparable<Rezept>{
 	/**
 	 * Der Beschaffungspreis der Zutaten in Silbertalern
 	 */
-	final double beschaffungsPreis;
+	public final double beschaffungsPreis;
 	
 	/**
 	 * Die Beschaffungswahrscheinlichkeit auf einem W20
 	 */
-	final int beschaffungsWahrscheinlichkeit;
+	public final int beschaffungsWahrscheinlichkeit;
 	
 	/**
 	 * Minimalanforderung an das Labor
 	 */
-	final byte labor;
+	public final byte labor;
 	
 	/**
 	 * Erschwernis auf die Alchemie-Probe für dieses Rezept
 	 */
-	final int brauModifikator;
+	public final int brauModifikator;
 	
 	/**
 	 * Die Verbreitung der Rezeptur
 	 */
-	final int verbreitung;
+	public final int verbreitung;
 
-	
+	/**
+	 * Die Haltbarkeit des durch dieses Rezept erstellte Elixiers
+	 */
+	public final Haltbarkeit haltbarkeit;
 	
 	/**
 	 * @param name
@@ -85,7 +96,8 @@ public class Rezept implements Comparable<Rezept>{
 			int beschaffungsWahrscheinlichkeit,
 			byte labor, 
 			int brauModifikator,
-			int verbreitung) {
+			int verbreitung,
+			Haltbarkeit haltbarkeit) {
 		this.name = name;
 		this.elixierArt = elixierArt;
 //		this.zutaten = zutaten;
@@ -94,9 +106,93 @@ public class Rezept implements Comparable<Rezept>{
 		this.labor = labor;
 		this.brauModifikator = brauModifikator;
 		this.verbreitung = verbreitung;
+		this.haltbarkeit = haltbarkeit;
 	}
 
-
+	public static SimplePersistentNamedCollection<Rezept> STANDARDLISTE = getStandardListe();
+	
+	public static SimplePersistentNamedCollection<Rezept> getStandardListe(){
+		SimplePersistentNamedCollection<Rezept> liste = new SimplePersistentNamedCollection<Rezept>();
+		
+		//TODO Alle Rezepte eintragen
+		SimplePersistentNamedCollection<ElixierArt> listeElixierArten = ElixierArt.STANDARDLISTE;
+		
+		//Heilmittel
+		liste.putObject(new Rezept(
+				"Antidot (Standardrezept)", 						//name 
+				listeElixierArten.getObject("Antidot"), 			//elixierArt 
+				250, 												//beschaffungsPreis
+				9, 													//beschaffungsWahrscheinlichkeit 
+				LABOR_HEXENKUECHE, 									//labor, 
+				5,													//brauModifikator 
+				5,													//verbreitung 
+				new Haltbarkeit(new W6Wurf(2,30), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Furchtlos-Tropfen (Standardrezept)",				//name 
+				listeElixierArten.getObject("Furchtlos-Tropfen"),	//elixierArt 
+				100, 												//beschaffungsPreis
+				12, 												//beschaffungsWahrscheinlichkeit 
+				LABOR_ARCHAISCH, 									//labor, 
+				3,													//brauModifikator 
+				4,													//verbreitung 
+				new Haltbarkeit(new W3Wurf(1,3), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Heiltrank (Standardrezept)", 						//name 
+				listeElixierArten.getObject("Heiltrank"), 			//elixierArt 
+				50, 												//beschaffungsPreis
+				14, 												//beschaffungsWahrscheinlichkeit 
+				LABOR_ARCHAISCH, 									//labor, 
+				2,													//brauModifikator 
+				7,													//verbreitung 
+				new Haltbarkeit(new W6Wurf(1,20), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Pastillen gegen Erschöpfung (Standardrezept)", 	//name 
+				listeElixierArten.getObject("Pastillen gegen Erschöpfung"), //elixierArt 
+				50, 												//beschaffungsPreis
+				11, 												//beschaffungsWahrscheinlichkeit 
+				LABOR_HEXENKUECHE, 									//labor, 
+				4,													//brauModifikator 
+				6,													//verbreitung 
+				new Haltbarkeit(new W3Wurf(1,7), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Prophylaktika (Standardrezept)", 					//name 
+				listeElixierArten.getObject("Prophylaktika"), 		//elixierArt 
+				180, 												//beschaffungsPreis
+				4, 													//beschaffungsWahrscheinlichkeit 
+				LABOR_ALCHEMIELABOR,								//labor, 
+				7,													//brauModifikator 
+				4,													//verbreitung 
+				new Haltbarkeit(new W3Wurf(1,4), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Pulver des klaren Geistes (Standardrezept)", 						//name 
+				listeElixierArten.getObject("Pulver des klaren Geistes"), 			//elixierArt 
+				80, 												//beschaffungsPreis
+				14, 												//beschaffungsWahrscheinlichkeit 
+				LABOR_ARCHAISCH, 									//labor, 
+				3,													//brauModifikator 
+				4,													//verbreitung 
+				new Haltbarkeit(new W6Wurf(1,3), Haltbarkeit.MONATE)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Restorarium (Standardrezept)", 					//name 
+				listeElixierArten.getObject("Restorarium"), 		//elixierArt 
+				600, 												//beschaffungsPreis
+				3, 													//beschaffungsWahrscheinlichkeit 
+				LABOR_ALCHEMIELABOR,								//labor, 
+				6,													//brauModifikator 
+				3,													//verbreitung 
+				new Haltbarkeit(new W6Wurf(3,3), Haltbarkeit.WOCHEN)));	//haltbarkeit
+		liste.putObject(new Rezept(
+				"Schlaftrunk (Standardrezept)", 					//name 
+				listeElixierArten.getObject("Schlaftrunk"), 		//elixierArt 
+				100, 												//beschaffungsPreis
+				10, 												//beschaffungsWahrscheinlichkeit 
+				LABOR_ARCHAISCH, 									//labor, 
+				3,													//brauModifikator 
+				5,													//verbreitung 
+				new Haltbarkeit(new W3Wurf(1,10), Haltbarkeit.MONATE)));	//haltbarkeit
+		
+		return liste;
+	}
 
 	public Elixier brauen(WuerfelTalentWert talentWert, 
 			byte labor, 
@@ -106,14 +202,19 @@ public class Rezept implements Comparable<Rezept>{
 			int zurueckgehalteneTAP, 
 			int qualitaetsBonusASP, 
 			int sonstigerQualitaetsModifikator,
-			AventurischesDatum BrauDatum,
-			Wuerfel wuerfel){
+			AventurischesDatum brauDatum,
+			Wuerfel wuerfel) throws AlchemieException{
 		VerboseOut.CONSOLE.println(talentWert.getHeld().name+" will das Rezept "+this.name+" brauen.");
 		
 		//Erstelle einen temporären Talentwert um die zurückgehaltenen TAP einzurechnen
 		WuerfelTalentWert effektiverTalentWert = new WuerfelTalentWert((WuerfelTalent)talentWert.getTalent(), talentWert.getTAP()-zurueckgehalteneTAP, talentWert.getHeld());
 		VerboseOut.CONSOLE.println(talentWert.getHeld().name+"s Talentwert in "+talentWert.getTalent().getName()+" beträgt "+talentWert.getTAP()+".");		
-		VerboseOut.CONSOLE.println("Er/Sie behält "+zurueckgehalteneTAP+" TAP ein. Der effektive Talentwert beträgt damit "+effektiverTalentWert.getTAP()+".");
+		VerboseOut.CONSOLE.println("Er/Sie hält "+zurueckgehalteneTAP+" TAP zurück. Der effektive Talentwert beträgt damit "+effektiverTalentWert.getTAP()+".");
+		if (zurueckgehalteneTAP < 2 || zurueckgehalteneTAP > talentWert.getTAP()-this.brauModifikator){
+			VerboseOut.CONSOLE.println("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit). Probe wird abgebrochen.");
+			VerboseOut.CONSOLE.println();
+			throw new AlchemieException("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit).");
+		}
 		
 		//PROBEMODIFIKATOREN
 		int modifikator = 0;
@@ -132,7 +233,7 @@ public class Rezept implements Comparable<Rezept>{
 		else if (labor-this.labor < -1) { //zwei Stufen schlechter
 			VerboseOut.CONSOLE.println("Die Laborausstattung ist zwei Stufen schlechter als benötigt, die Probe wird abgebrochen. Es wurde kein Trank (null) gebraut."+" (Summe der Modifikationen bisher "+modifikator+")");
 			VerboseOut.CONSOLE.println();
-			return null; 
+			throw new AlchemieException("Die Laborausstattung ist zwei Stufen schlechter als benötigt und damit nicht ausreichend um das Elixier zu brauen.");
 		}
 		else{ //genau richtig
 			VerboseOut.CONSOLE.println("Die Laborausstattung ist genau ausreichend, die Probe wird dadurch nicht modifiziert."+" (Summe der Modifikationen bisher "+modifikator+")");
@@ -177,21 +278,19 @@ public class Rezept implements Comparable<Rezept>{
 		byte[] zufallsbytes = new byte[3];
 		wuerfel.nextBytes(zufallsbytes);
 		String name = this.elixierArt.name+" (ID: "+Base64.encodeBase64String(zufallsbytes)+")";
-		
-		
-		
-		//TODO Haltbarkeit
+	
 		if (tapStern < 0){ //Probe misslungen
 			VerboseOut.CONSOLE.println("Das Exlixier ist misslungen.");
 			VerboseOut.CONSOLE.println();
-			return new Elixier(name, this.elixierArt, Elixier.QUALITAET_M, new AventurischesDatum(0)); 
+			return new Elixier(name, this.elixierArt, Elixier.QUALITAET_M, this.haltbarkeit.getHaltbarkeitsDatum(brauDatum, wuerfel)); 
 		}
 		else{
 			VerboseOut.CONSOLE.println("Das Elixier ist gelungen. Die Qualitätszahl wird berechnet.");
 			int qualitaetszahl = wuerfel.wirfW6()+wuerfel.wirfW6();
 			VerboseOut.CONSOLE.println("   "+qualitaetszahl+" (2W6)");
 			VerboseOut.CONSOLE.println("  +"+tapStern+" (TAP*)");
-			if (qualitaetsBonusASP>0) VerboseOut.CONSOLE.println("  +"+qualitaetsBonusASP+" (Bonus durch den Einsatz von +"+(Math.pow(2, qualitaetsBonusASP-1))+")");
+			VerboseOut.CONSOLE.println("  +"+(2*zurueckgehalteneTAP)+" (2 x zurückgehaltene TAP)");
+			if (qualitaetsBonusASP>0) VerboseOut.CONSOLE.println("  +"+qualitaetsBonusASP+" (Bonus durch den Einsatz von "+((int)Math.pow(2, qualitaetsBonusASP-1))+" ASP)");
 			VerboseOut.CONSOLE.println("  +"+sonstigerQualitaetsModifikator+" (Sonstige Qualitätsmodifikatoren)");
 			qualitaetszahl += tapStern 
 				+ (2*zurueckgehalteneTAP) 
@@ -208,7 +307,7 @@ public class Rezept implements Comparable<Rezept>{
 			VerboseOut.CONSOLE.ammendln("Dies entspricht einer Qualität von "+Elixier.buchstabeQualitaet(qualitaet)+".");
 			
 			VerboseOut.CONSOLE.println();
-			return new Elixier(name, this.elixierArt, qualitaet, new AventurischesDatum(0)); 			
+			return new Elixier(name, this.elixierArt, qualitaet, this.haltbarkeit.getHaltbarkeitsDatum(brauDatum, wuerfel)); 			
 		}
 	}
 
@@ -221,5 +320,10 @@ public class Rezept implements Comparable<Rezept>{
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Rezept)) return false;
 		return this.name.equals(((Rezept)obj).name);
+	}
+	
+	@Override
+	public String getName(){
+		return this.name;
 	}
 }

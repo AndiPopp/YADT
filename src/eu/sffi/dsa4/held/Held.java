@@ -10,13 +10,19 @@ import java.util.TreeSet;
 import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.held.talente.TalentException;
 import eu.sffi.dsa4.held.talente.TalentWert;
+import eu.sffi.dsa4.util.Named;
 
 /**
  * @author Andi Popp
  *
  */
-public class Held {
+public class Held implements Named<Held>{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7924090737926296115L;
+
 	/**
 	 * Der Index für den Mut-Wert
 	 */
@@ -183,6 +189,16 @@ public class Held {
 	public void addTalentWert(Talent talent, int tap) throws TalentException{
 		if (this.getTalentWert(talent) != null) throw new TalentException(this.name+" hat bereits einen Wert für das Talent "+talent.getName()+"("+talent+")");
 		this.talentWerte.add(talent.getTalentWert(tap, this));
+	}
+
+	@Override
+	public int compareTo(Held o) {
+		return this.getName().compareTo(o.getName());
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
 	}
 
 }

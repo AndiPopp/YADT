@@ -1,11 +1,8 @@
 package eu.sffi.dsa4.util;
 
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 /**

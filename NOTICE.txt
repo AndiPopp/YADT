@@ -1,0 +1,8 @@
+YADT
+Copyright 2014 Andi Popp
+
+This product includes software developed by
+The Apache Software Foundation (http://www.apache.org/).
+
+See the notice files in the corresponding lib folders for
+complete notice acknowledgements.

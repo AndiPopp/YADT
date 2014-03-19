@@ -1,7 +1,14 @@
 package eu.sffi.dsa4.alchemie;
 
-public class ElixierArt {
+import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
+public class ElixierArt implements Named<ElixierArt>{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5729951796270699950L;
 	public static final byte GRUPPE_KEINE = 0;
 	public static final byte GRUPPE_SPAGYRIK = 1;
 	public static final byte GRUPPE_VENENIK = 2;
@@ -24,17 +31,17 @@ public class ElixierArt {
 	/**
 	 * Erschwernis bei der Analyse des Tranks
 	 */
-	int analyseModifikator;
+	int analyseSchwierigkeit;
 
 	/**
 	 * @param name
 	 * @param gruppe
-	 * @param analyseModifikator
+	 * @param analyseSchwierigkeit
 	 */
-	public ElixierArt(String name, byte gruppe, int analyseModifikator) {
+	public ElixierArt(String name, byte gruppe, int analyseSchwierigkeit) {
 		this.name = name;
 		this.gruppe = gruppe;
-		this.analyseModifikator = analyseModifikator;
+		this.analyseSchwierigkeit = analyseSchwierigkeit;
 	}
 	
 	@Override
@@ -42,6 +49,32 @@ public class ElixierArt {
 		if (!(obj instanceof ElixierArt)) return false;
 		return this.name.equals(((ElixierArt)obj).name);
 	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
 	
+	public static SimplePersistentNamedCollection<ElixierArt> STANDARDLISTE = getStandardListe();
 	
+	public static SimplePersistentNamedCollection<ElixierArt> getStandardListe(){
+		SimplePersistentNamedCollection<ElixierArt> liste = new SimplePersistentNamedCollection<ElixierArt>();
+		//TODO Alle ElixierArten eintragen
+		
+		//Heilmittel
+		liste.putObject(new ElixierArt("Andtidot", ElixierArt.GRUPPE_SPAGYRIK, 4));
+		liste.putObject(new ElixierArt("Furchtlos-Tropfen", ElixierArt.GRUPPE_SPAGYRIK, 1));
+		liste.putObject(new ElixierArt("Heiltrank", ElixierArt.GRUPPE_SPAGYRIK, 1));
+		liste.putObject(new ElixierArt("Pastillen gegen Erschöpfung", ElixierArt.GRUPPE_SPAGYRIK, 4));
+		liste.putObject(new ElixierArt("Prophylaktika", ElixierArt.GRUPPE_SPAGYRIK, 7));
+		liste.putObject(new ElixierArt("Pulver des klaren Geistes", ElixierArt.GRUPPE_SPAGYRIK, 2));
+		liste.putObject(new ElixierArt("Restorarium", ElixierArt.GRUPPE_SPAGYRIK, 3));
+		liste.putObject(new ElixierArt("Schlaftrunk", ElixierArt.GRUPPE_SPAGYRIK, 1));
+		return liste;
+	}
+	
+	@Override
+	public int compareTo(ElixierArt o) {
+		return this.getName().compareTo(o.getName());
+	}
 }

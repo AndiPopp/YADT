@@ -4,13 +4,18 @@
 package eu.sffi.dsa4.alchemie;
 
 import eu.sffi.dsa4.kalender.AventurischesDatum;
+import eu.sffi.dsa4.util.Named;
 
 /**
  * @author Andi Popp
  * Eine Portion eines bestimmten Elixiers
  */
-public class Elixier {
+public class Elixier implements Named<Elixier>{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6670573574052482712L;
 	public static final byte QUALITAET_M = 0;
 	public static final byte QUALITAET_A = 1;
 	public static final byte QUALITAET_B = 2;
@@ -74,6 +79,16 @@ public class Elixier {
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Elixier)) return false;
 		return this.name.equals(((Elixier)obj).name);
+	}
+
+	@Override
+	public String getName() {
+		return this.name;
+	}
+
+	@Override
+	public int compareTo(Elixier o) {
+		return this.getName().compareTo(o.getName());
 	}
 	
 }

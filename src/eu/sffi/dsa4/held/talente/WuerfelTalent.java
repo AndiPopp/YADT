@@ -12,6 +12,11 @@ import eu.sffi.dsa4.held.Held;
 public class WuerfelTalent extends Talent {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3419601352869800655L;
+
+	/**
 	 * Die Eigenschaften auf die beim Talent gewürfelt wird als Eigenschaftsindizes
 	 */
 	public final byte[] eigenschaft = new byte[3];

@@ -12,7 +12,20 @@ import java.util.Random;
 public class Wuerfel extends Random{
 	
 	/**
-	 * Wirft den Würfel einmal und gibt den Wert zurück
+	 * 
+	 */
+	private static final long serialVersionUID = -1145508868864271187L;
+
+	/**
+	 * Wirft einen W3 und gibt den Wert zurück
+	 * @return
+	 */
+	public byte wirfW3(){
+		return (byte) Math.ceil(this.nextDouble()*3);
+	}
+	
+	/**
+	 * Wirft einen W6 einmal und gibt den Wert zurück
 	 * @return
 	 */
 	public byte wirfW6(){
@@ -20,7 +33,15 @@ public class Wuerfel extends Random{
 	}
 	
 	/**
-	 * Wirft den Würfel einmal und gibt den Wert zurück
+	 * Wirft einen W10 einmal und gibt den Wert zurück
+	 * @return
+	 */
+	public byte wirfW10(){
+		return (byte) Math.ceil(this.nextDouble()*10);
+	}
+	
+	/**
+	 * Wirft einen W20 einmal und gibt den Wert zurück
 	 * @return
 	 */
 	public byte wirfW20(){

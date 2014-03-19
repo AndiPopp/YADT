@@ -6,7 +6,9 @@ package eu.sffi.dsa4.kalender;
 /**
  * @author Andi Popp
  * Eine Klasse für Tage nach dem aventurischen Kalender. Auf Stunden genau gerechnet (genauer wäre in Aventurien wohl unüblich). 
- * Der Fixpunkt des Timestamps ist der 1. Praios 0 BF, 1. Stunde
+ * Der Fixpunkt des Timestamps ist der 1. Praios 0 BF, 1. Stunde.
+ * 
+ * Die Klasse arbeitet bisher nur mit Daten nach BF ordentlich.
  */
 public class AventurischesDatum {
 	/**
@@ -152,5 +154,34 @@ public class AventurischesDatum {
 
 	public String toString(){
 		return getNumerischenTag()+". "+getMonat()+" "+getNumerischesJahr()+" BF, "+getNumerischeStunde()+". Stunde";
+	}
+
+	public void add(long stunden){
+		this.timestamp += stunden;
+	}
+	
+	public void addTage(int tage){
+		this.timestamp += tage*24;
+	}
+	
+	public void addWochen(int wochen){
+		this.timestamp += wochen*7*24;
+	}
+	
+	/**
+	 * Fügt dem Datum die Zahl an Monate (30 Tagen) zu. Die namenlosen Tage werden dabei nicht als Monat gewertet.
+	 * @param monate
+	 */
+	public void addMonate(int monate){
+		this.timestamp += monate*30*24;
+	}
+	
+	public void addJahre(int jahre){
+		this.timestamp += jahre*365*24;
+	}
+	
+	@Override
+	public AventurischesDatum clone(){
+		return new AventurischesDatum(this.timestamp);
 	}
 }
