@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -92,5 +93,9 @@ public class SimplePersistentNamedCollection<T extends Named<T>> implements Seri
 	 
 	 public boolean isEmpty(){
 		 return content.isEmpty();
+	 }
+	 
+	 public Collection<T> values(){
+		 return content.values();
 	 }
 }

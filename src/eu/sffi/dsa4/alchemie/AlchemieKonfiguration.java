@@ -42,7 +42,10 @@ public class AlchemieKonfiguration implements Serializable, Named<AlchemieKonfig
 		this.rezepte = rezepte;
 	}
 	
-	public static AlchemieKonfiguration STANDARDKONFIGURATION = new AlchemieKonfiguration(ElixierArt.STANDARDLISTE, Rezept.STANDARDLISTE);
+	public static AlchemieKonfiguration getStandardKonfiguration(){
+		SimplePersistentNamedCollection<ElixierArt> listeEA = ElixierArt.getStandardListe();
+		return new AlchemieKonfiguration(listeEA, Rezept.getStandardListe(listeEA));
+	}
 
 	@Override
 	public int compareTo(AlchemieKonfiguration o) {

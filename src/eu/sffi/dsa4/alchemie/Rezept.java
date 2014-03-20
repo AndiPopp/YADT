@@ -109,13 +109,11 @@ public class Rezept implements Named<Rezept>{
 		this.haltbarkeit = haltbarkeit;
 	}
 
-	public static SimplePersistentNamedCollection<Rezept> STANDARDLISTE = getStandardListe();
-	
-	public static SimplePersistentNamedCollection<Rezept> getStandardListe(){
+
+	public static SimplePersistentNamedCollection<Rezept> getStandardListe(SimplePersistentNamedCollection<ElixierArt> listeElixierArten){
 		SimplePersistentNamedCollection<Rezept> liste = new SimplePersistentNamedCollection<Rezept>();
 		
 		//TODO Alle Rezepte eintragen
-		SimplePersistentNamedCollection<ElixierArt> listeElixierArten = ElixierArt.STANDARDLISTE;
 		
 		//Heilmittel
 		liste.putObject(new Rezept(
@@ -277,7 +275,7 @@ public class Rezept implements Named<Rezept>{
 		//Erstelle einen zufälligen base64-String um eindeutige Namen zu vergeben
 		byte[] zufallsbytes = new byte[3];
 		wuerfel.nextBytes(zufallsbytes);
-		String name = this.elixierArt.name+" (ID: "+Base64.encodeBase64String(zufallsbytes)+")";
+		String name = this.elixierArt.getName()+" (ID: "+Base64.encodeBase64String(zufallsbytes)+")";
 	
 		if (tapStern < 0){ //Probe misslungen
 			VerboseOut.CONSOLE.println("Das Exlixier ist misslungen.");
