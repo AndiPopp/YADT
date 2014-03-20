@@ -16,6 +16,7 @@ public class Elixier implements Named<Elixier>{
 	 * 
 	 */
 	private static final long serialVersionUID = -6670573574052482712L;
+	
 	public static final byte QUALITAET_M = 0;
 	public static final byte QUALITAET_A = 1;
 	public static final byte QUALITAET_B = 2;
@@ -57,6 +58,11 @@ public class Elixier implements Named<Elixier>{
 	 */
 	public final AventurischesDatum haltbarkeitsDatum;
 
+	/**
+	 * Eine Notiz zu einem Elixier
+	 */
+	public String note;
+	
 	/**
 	 * @param name
 	 * @param art

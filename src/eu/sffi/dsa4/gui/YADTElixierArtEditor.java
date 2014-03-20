@@ -4,7 +4,6 @@
 package eu.sffi.dsa4.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -33,7 +32,7 @@ import eu.sffi.dsa4.gui.elements.Spacing;
  * @author Andi Popp
  *
  */
-public class YADTElixierArtEditor extends JPanel implements ActionListener, ChecksCurrentChanges {
+public class YADTElixierArtEditor extends YADTAbstractToolPanel implements ActionListener, ChecksCurrentChanges {
 
 	/**
 	 * 
@@ -45,17 +44,9 @@ public class YADTElixierArtEditor extends JPanel implements ActionListener, Chec
 	private ElixierArt selectedElixierArt;
 	
 	//Bauelemente
-	/**
-	 * Das obere Panel. Beinhaltet die Möglichkeiten zur Auswahl, Löschen und neu erstellen
-	 * von Elixierarten
-	 */
-	private JPanel topPanel;
 	
-	/**
-	 * Das untere Panel. Beinhaltet die Informationen des aktuell ausgewählten Elixiertyps
-	 */
-	private JPanel mainPanel;
 	
+		
 	/**
 	 * Verweist zurück auf die {@link YADTMainContentPane} auf der der YADTElixierArtEditor liegt
 	 */
@@ -86,7 +77,7 @@ public class YADTElixierArtEditor extends JPanel implements ActionListener, Chec
 		
 	}
 
-	private JPanel createMainPanel() {
+	protected JPanel createMainPanel() {
 		//Außen zentrieren
 		JPanel mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20));
 		
@@ -159,7 +150,7 @@ public class YADTElixierArtEditor extends JPanel implements ActionListener, Chec
 		}
 	}
 		
-	private JPanel createTopPanel(){
+	protected JPanel createTopPanel(){
 		JPanel topPanel = new JPanel(new GridLayout(0, 1));
 		
 		//Vertikaler Abstand
@@ -203,7 +194,7 @@ public class YADTElixierArtEditor extends JPanel implements ActionListener, Chec
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(e.getActionCommand());
+		
 		
 		if (e.getActionCommand().equals("ElixierArtEditor:ComboBoxChanged")){
 			updateSelectedElixierArt((JComboBox<ElixierArt>)e.getSource());
@@ -218,6 +209,9 @@ public class YADTElixierArtEditor extends JPanel implements ActionListener, Chec
 			this.selectedElixierArt.analyseSchwierigkeit = analyseSchwierigkeit;
 			this.selectedElixierArt.gruppe = elixierGruppe.getWert();
 			setCurrentChanges(true);
+		}
+		else{
+			System.out.println("Noch nicht implementiert:"+e.getActionCommand());
 		}
 	}
 	

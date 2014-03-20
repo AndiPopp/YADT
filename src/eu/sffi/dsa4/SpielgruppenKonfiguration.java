@@ -11,7 +11,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import eu.sffi.dsa4.alchemie.AlchemieKonfiguration;
+import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.util.Saveable;
+import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
 
 
@@ -25,19 +27,31 @@ public class SpielgruppenKonfiguration implements Saveable{
 	private static final long serialVersionUID = 5587829916787431886L;
 	
 	/**
-	 * Die Elixiere und Rezepte
+	 * Die Elixier-Typen und Rezepte
 	 */
 	public AlchemieKonfiguration alchemieKonfiguration;
 	
+	public SimplePersistentNamedCollection<Held> heldenListe;
+	
 	/**
+	 * 
 	 * @param alchemieKonfiguration
+	 * @param heldenListe
 	 */
-	public SpielgruppenKonfiguration(AlchemieKonfiguration alchemieKonfiguration) {
+	public SpielgruppenKonfiguration(AlchemieKonfiguration alchemieKonfiguration,
+			SimplePersistentNamedCollection<Held> heldenListe) {
 		this.alchemieKonfiguration = alchemieKonfiguration;
+		this.heldenListe = heldenListe;
 	}
 	
+	/**
+	 * "Leere" Standardliste
+	 * @return eine "leere" Standardliste
+	 */
 	public static SpielgruppenKonfiguration getStandadard(){
-		return new SpielgruppenKonfiguration(AlchemieKonfiguration.getStandardKonfiguration());
+		return new SpielgruppenKonfiguration(
+				AlchemieKonfiguration.getStandardKonfiguration(), //Alchemie-Konfiguration
+				Held.emptyHeldenListe()); //Heldenliste
 	}
 	
 	 @Override

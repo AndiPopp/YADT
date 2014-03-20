@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -22,6 +21,10 @@ import javax.swing.tree.DefaultTreeSelectionModel;
  */
 public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7225007895274878045L;
 	private JTree navigation;
 	private YADTMainContentPane parent;
 	
@@ -36,8 +39,10 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		//Navigationsbaum erstellen
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
 		
-		DefaultMutableTreeNode heldenRoot = new DefaultMutableTreeNode("Heldenmanager");
+		DefaultMutableTreeNode heldenRoot = new DefaultMutableTreeNode("Heldengruppe");
 		root.add(heldenRoot);
+			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenPanel());
+			heldenRoot.add(helden);
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");
 		root.add(alchemieRoot);
@@ -69,7 +74,7 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		
 		if (selected instanceof DefaultMutableTreeNode){
 			Object selectedContent = ((DefaultMutableTreeNode)selected).getUserObject();
-			if (selectedContent instanceof JPanel){
+			if (selectedContent instanceof YADTAbstractToolPanel){
 				this.parent.updateMainPanel((JPanel)selectedContent);
 			}
 		}

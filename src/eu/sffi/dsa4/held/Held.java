@@ -11,6 +11,7 @@ import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.held.talente.TalentException;
 import eu.sffi.dsa4.held.talente.TalentWert;
 import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
 /**
  * @author Andi Popp
@@ -63,6 +64,11 @@ public class Held implements Named<Held>{
 	 */
 	public static final byte KK = 7;
 	
+	/**
+	 * Gibt den zu einer Eigenschafts-Konstante korrespondierenden String aus
+	 * @param eigenschaft Die Eigenschafts-Konstante
+	 * @return 
+	 */
 	public static final String EIGENSCHAFT(byte eigenschaft){
 		switch (eigenschaft){
 			case MU: return "MU";
@@ -75,6 +81,14 @@ public class Held implements Named<Held>{
 			case KK: return "KK";
 			default: return "";
 		}
+	}
+	
+	/**
+	 * Gibt eine leere Heldenliste zurück
+	 * @return eine leere Heldenliste
+	 */
+	public static final SimplePersistentNamedCollection<Held> emptyHeldenListe(){
+		return new SimplePersistentNamedCollection<Held>();
 	}
 	
 	/**

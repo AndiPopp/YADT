@@ -82,8 +82,12 @@ public class YADTMainFrame extends JFrame implements ActionListener, ChecksCurre
 	}
 
 	protected void start(SpielgruppenKonfiguration spielgruppenKonfiguration){
+		if (this.mainContentPane != null) this.remove(this.mainContentPane);
 		this.mainContentPane = new YADTMainContentPane(spielgruppenKonfiguration, this);
 		contentPane.add(mainContentPane, BorderLayout.CENTER);
+		
+		this.setCurrentChanges(false);
+		this.updateFrameTitle();
 		this.pack();
 		this.setVisible(true);
 	}

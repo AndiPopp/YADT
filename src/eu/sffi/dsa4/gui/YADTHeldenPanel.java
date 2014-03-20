@@ -10,7 +10,12 @@ import javax.swing.JPanel;
  * @author Andi Popp
  *
  */
-public class YADTHeldenPanel extends JPanel {
+public class YADTHeldenPanel extends YADTAbstractToolPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6589135100286248290L;
 
 	public YADTHeldenPanel(){
 		this.add(new JLabel("Heldenpanel"));
@@ -18,5 +23,17 @@ public class YADTHeldenPanel extends JPanel {
 	
 	public String toString(){
 		return "Helden";
+	}
+
+	@Override
+	protected JPanel createTopPanel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected JPanel createMainPanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

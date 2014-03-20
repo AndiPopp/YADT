@@ -109,7 +109,7 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
-		System.out.println(actionEvent.getActionCommand());
+//		System.out.println(actionEvent.getActionCommand());
 		//Datei-Optionen
 		if (actionEvent.getActionCommand().equals(ACTION_NEW)){
 			createNewSpielgruppe();
@@ -131,6 +131,10 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Erstellt eine neue Spielgruppe
+	 * @return true wenn das erstellen erfolgreich war, false sonst
+	 */
 	private boolean createNewSpielgruppe(){
 		//Aktuelle Änderungen abfragen
 				if (this.parent.unsavedChangesFlag){
@@ -143,6 +147,10 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		return true;
 	}
 	
+	/**
+	 * Speichert eine Spielgruppe
+	 * @return true wenn das speichern erfolgreich war, false sonst
+	 */
 	private boolean saveSpielgruppe(){
 		File saveFile;
 		if (parent.saveFile != null) saveFile = parent.saveFile;
@@ -164,6 +172,10 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		return true;
 	}
 	
+	/**
+	 * Öffnet eine Spielgruppe
+	 * @return true wenn das Öffnen erfolgreich war, false sonst
+	 */
 	private boolean openSpielgruppe(){
 		JFileChooser fileChooser = new JFileChooser();
 		
