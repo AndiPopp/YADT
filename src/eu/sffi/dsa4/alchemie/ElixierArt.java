@@ -1,9 +1,9 @@
 package eu.sffi.dsa4.alchemie;
 
-import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.AbstractNameConstructableObject;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
-public class ElixierArt implements Named<ElixierArt>{
+public class ElixierArt extends AbstractNameConstructableObject{
 
 	/**
 	 * 
@@ -13,7 +13,7 @@ public class ElixierArt implements Named<ElixierArt>{
 	/**
 	 * Der Name der Art des Elixiers
 	 */
-	private final String name;
+	private String name;
 	
 	/**
 	 * Die Gruppe der das Elixier zugeordnet wird
@@ -31,12 +31,12 @@ public class ElixierArt implements Named<ElixierArt>{
 	 * @param analyseSchwierigkeit
 	 */
 	public ElixierArt(String name, byte gruppe, int analyseSchwierigkeit) {
-		this.name = name;
+		super(name);
 		this.gruppe = gruppe;
 		this.analyseSchwierigkeit = analyseSchwierigkeit;
 	}
 	
-	@Override
+	
 	public boolean equals(Object obj) {
 		if (!(obj instanceof ElixierArt)) return false;
 		return this.name.equals(((ElixierArt)obj).name);
@@ -66,13 +66,29 @@ public class ElixierArt implements Named<ElixierArt>{
 		return liste;
 	}
 	
-	@Override
-	public int compareTo(ElixierArt o) {
-		return this.getName().compareTo(o.getName());
-	}
+	
 	
 	@Override
 	public String toString(){
 		return this.name;
 	}
+
+
+	@Override
+	public String initName(String name) {
+		if (this.name == null)	this.name = name;
+		return this.name;
+	}
+
+
+	@Override
+	public Object getBabyObject(String name) {
+		return new ElixierArt(name, ElixierGruppe.KEINE, 0);
+	}
+
+	public static ElixierArt getFather(){
+		return new ElixierArt("DER VATER ALLER ELEXIERARTEN!\n!#!#!#!", (byte) 0, 0);
+	}
+
+
 }

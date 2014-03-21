@@ -76,7 +76,7 @@ public class WuerfelTalentWert extends TalentWert {
 	 */
 	public int werfen(Wuerfel wuerfel, int modifikator){
 		//TODO Patzer und Glückswürfe
-		VerboseOut.CONSOLE.print(this.held.name+" wirft eine Probe auf "+this.talent.getName()+" ("
+		VerboseOut.CONSOLE.print(this.held.getName()+" wirft eine Probe auf "+this.talent.getName()+" ("
 				+Held.EIGENSCHAFT(this.talent.eigenschaft[0])+"/"
 				+Held.EIGENSCHAFT(this.talent.eigenschaft[1])+"/"
 				+Held.EIGENSCHAFT(this.talent.eigenschaft[2])+") "

@@ -3,14 +3,14 @@
  */
 package eu.sffi.dsa4.alchemie;
 
-import eu.sffi.dsa4.util.AbstractNameObject;
+import eu.sffi.dsa4.util.AbstractNamedObject;
 import eu.sffi.dsa4.util.Named;
 
 /**
  * @author Andi Popp
  *
  */
-public class ElixierGruppe extends AbstractNameObject implements Named<ElixierGruppe>{
+public class ElixierGruppe extends AbstractNamedObject {
 
 	/**
 	 * 
@@ -44,11 +44,6 @@ public class ElixierGruppe extends AbstractNameObject implements Named<ElixierGr
 			elixierGruppen[i] = new ElixierGruppe(i);
 		}
 		return elixierGruppen;
-	}
-
-	@Override
-	public int compareTo(ElixierGruppe arg0) {
-		return this.getName().compareTo(arg0.getName());
 	}
 
 	@Override

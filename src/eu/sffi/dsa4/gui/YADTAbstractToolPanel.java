@@ -9,7 +9,7 @@ import javax.swing.JPanel;
  * @author Andi Popp
  *
  */
-public abstract class YADTAbstractToolPanel extends JPanel{
+public abstract class YADTAbstractToolPanel extends JPanel implements ChecksCurrentChanges{
 
 	/**
 	 * 
@@ -27,8 +27,17 @@ public abstract class YADTAbstractToolPanel extends JPanel{
 	 */
 	protected JPanel mainPanel;
 
+	/**
+	 * Verweist zurück auf die {@link YADTMainContentPane} auf der der YADTElixierArtEditor liegt
+	 */
+	protected YADTMainContentPane parent;
+	
 	protected abstract JPanel createTopPanel();
 	
 	protected abstract JPanel createMainPanel();
 	
+	@Override
+	public void setCurrentChanges(boolean changeFlag) {
+		parent.setCurrentChanges(changeFlag);
+	}
 }

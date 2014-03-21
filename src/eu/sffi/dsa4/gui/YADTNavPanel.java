@@ -41,7 +41,7 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		
 		DefaultMutableTreeNode heldenRoot = new DefaultMutableTreeNode("Heldengruppe");
 		root.add(heldenRoot);
-			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenPanel());
+			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenPanel(this.parent.spielgruppenKonfiguration, this.parent));
 			heldenRoot.add(helden);
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");
@@ -70,8 +70,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 	@Override
 	public void valueChanged(TreeSelectionEvent e) {
 	
-		Object selected = e.getNewLeadSelectionPath().getLastPathComponent();
-		
+		Object selected = null;
+		if (e.getNewLeadSelectionPath() != null) selected = e.getNewLeadSelectionPath().getLastPathComponent();
 		if (selected instanceof DefaultMutableTreeNode){
 			Object selectedContent = ((DefaultMutableTreeNode)selected).getUserObject();
 			if (selectedContent instanceof YADTAbstractToolPanel){

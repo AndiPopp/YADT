@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
@@ -19,7 +20,7 @@ import java.util.TreeMap;
  * @author Andi Popp
  * Wrapper for a hash table with saving and loading functions
  */
-public class SimplePersistentNamedCollection<T extends Named<T>> implements Serializable {
+public class SimplePersistentNamedCollection<T extends Named> implements Serializable {
 	
 	/**
 	 * 
@@ -71,8 +72,8 @@ public class SimplePersistentNamedCollection<T extends Named<T>> implements Seri
 		 this.content = content;
 	 }
 	 
-	 public void putObject(T object) {
-		 content.put(object.getName(), object);
+	 public T putObject(T object) {
+		return content.put(object.getName(), object);
 	 }
 	 
 	 public T getObject(String name) {
@@ -81,6 +82,12 @@ public class SimplePersistentNamedCollection<T extends Named<T>> implements Seri
 	 
 	 public Iterator<String> getAllNames() {
 		 return content.keySet().iterator();
+	 }
+	 
+	 public void printAllName(PrintStream out){
+		 for (Iterator it = getAllNames(); it.hasNext();){
+			 out.println(it.next());
+		 }
 	 }
 	 
 	 public T remove(String name){
@@ -98,4 +105,9 @@ public class SimplePersistentNamedCollection<T extends Named<T>> implements Seri
 	 public Collection<T> values(){
 		 return content.values();
 	 }
+	 
+	 public boolean containsName(String name){
+		 return content.containsKey(name);
+	 }
+
 }

@@ -10,7 +10,7 @@ import eu.sffi.dsa4.util.Named;
  * @author Andi Popp
  *
  */
-public abstract class Talent implements Named<Talent>{
+public abstract class Talent implements Named{
 
 	/**
 	 * 
@@ -23,7 +23,7 @@ public abstract class Talent implements Named<Talent>{
 
 	public abstract TalentWert getTalentWert(int tap, Held held);
 	
-	public int compareTo(Talent talent){
+	public int compareTo(Named talent){
 		return this.getName().compareTo(talent.getName());
 	}
 }

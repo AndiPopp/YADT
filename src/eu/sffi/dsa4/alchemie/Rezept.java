@@ -8,7 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 import eu.sffi.dsa4.held.talente.WuerfelTalent;
 import eu.sffi.dsa4.held.talente.WuerfelTalentWert;
 import eu.sffi.dsa4.kalender.AventurischesDatum;
-import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.AbstractNamedObject;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 import eu.sffi.dsa4.util.VerboseOut;
 import eu.sffi.dsa4.wuerfel.W3Wurf;
@@ -19,7 +19,7 @@ import eu.sffi.dsa4.wuerfel.Wuerfel;
  * @author Andi Popp
  *
  */
-public class Rezept implements Named<Rezept>{
+public class Rezept extends AbstractNamedObject{
 
 	/**
 	 * 
@@ -202,11 +202,11 @@ public class Rezept implements Named<Rezept>{
 			int sonstigerQualitaetsModifikator,
 			AventurischesDatum brauDatum,
 			Wuerfel wuerfel) throws AlchemieException{
-		VerboseOut.CONSOLE.println(talentWert.getHeld().name+" will das Rezept "+this.name+" brauen.");
+		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+" will das Rezept "+this.name+" brauen.");
 		
 		//Erstelle einen temporären Talentwert um die zurückgehaltenen TAP einzurechnen
 		WuerfelTalentWert effektiverTalentWert = new WuerfelTalentWert((WuerfelTalent)talentWert.getTalent(), talentWert.getTAP()-zurueckgehalteneTAP, talentWert.getHeld());
-		VerboseOut.CONSOLE.println(talentWert.getHeld().name+"s Talentwert in "+talentWert.getTalent().getName()+" beträgt "+talentWert.getTAP()+".");		
+		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+"s Talentwert in "+talentWert.getTalent().getName()+" beträgt "+talentWert.getTAP()+".");		
 		VerboseOut.CONSOLE.println("Er/Sie hält "+zurueckgehalteneTAP+" TAP zurück. Der effektive Talentwert beträgt damit "+effektiverTalentWert.getTAP()+".");
 		if (zurueckgehalteneTAP < 2 || zurueckgehalteneTAP > talentWert.getTAP()-this.brauModifikator){
 			VerboseOut.CONSOLE.println("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit). Probe wird abgebrochen.");
@@ -309,10 +309,6 @@ public class Rezept implements Named<Rezept>{
 		}
 	}
 
-	@Override
-	public int compareTo(Rezept o) {
-		return this.name.compareToIgnoreCase(o.name);
-	}
 	
 	@Override
 	public boolean equals(Object obj) {

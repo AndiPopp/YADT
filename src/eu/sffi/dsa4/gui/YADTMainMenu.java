@@ -3,11 +3,16 @@
  */
 package eu.sffi.dsa4.gui;
 
+import java.awt.Desktop;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -39,6 +44,8 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	private static final String ACTION_OPEN = "YADTMainMenu:open";
 	private static final String ACTION_SAVE = "YADTMainMenu:save";
 	private static final String ACTION_SAVE_AS = "YADTMainMenu:save as";
+	
+	//Hilfe-Optionen
 	private static final String ACTION_ABOUT = "YADTMainMenu:about";
 	
 	private JMenu dateiMenu;
@@ -46,6 +53,8 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	private JMenu themeMenu;
 
 	private final YADTMainFrame parent;
+
+	
 	
 	public YADTMainMenu(YADTMainFrame parent){
 	//Globale Variablen initialisieren		
@@ -98,8 +107,8 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	this.hilfeMenu = new JMenu("Hilfe");
 	this.hilfeMenu.setMnemonic('H');
 	this.add(hilfeMenu);
-	Spacing.addHorizontalSpacer(this, 1);
-		//Speichern unter
+	Spacing.addHorizontalSpacer(this, 1);	
+		//About
 		menuItem = new JMenuItem("Über", 'b');
 		menuItem.addActionListener(this);
 		menuItem.setActionCommand(ACTION_ABOUT);
@@ -128,6 +137,14 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 			} catch (Exception ex) {
 				JOptionPane.showMessageDialog(parent, "Umschalten des Themes fehlgeschlagen.\n\nFehlermeldung: "+ex.getMessage(), "Fehler beim Öffnen", JOptionPane.ERROR_MESSAGE);
 			} 
+		}
+		//Hilfe-Optionen
+		else if(actionEvent.getActionCommand().equals(ACTION_ABOUT)){
+			JOptionPane.showMessageDialog(parent, new YADTAboutPanel(), "Über YADT", JOptionPane.PLAIN_MESSAGE);
+		}
+		//Auffang-Option
+		else{
+			JOptionPane.showMessageDialog(parent, "Kommando noch nicht implementiert: "+actionEvent.getActionCommand());
 		}
 	}
 	
@@ -204,4 +221,5 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		}
 		return true;
 	}
+
 }

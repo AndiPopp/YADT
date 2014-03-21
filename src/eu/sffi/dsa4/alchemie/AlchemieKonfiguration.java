@@ -5,14 +5,14 @@ package eu.sffi.dsa4.alchemie;
 
 import java.io.Serializable;
 
-import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.AbstractNamedObject;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
 /**
  * @author Andi Popp
  *
  */
-public class AlchemieKonfiguration implements Serializable, Named<AlchemieKonfiguration> {
+public class AlchemieKonfiguration extends AbstractNamedObject implements Serializable {
 
 	
 	/**
@@ -47,10 +47,6 @@ public class AlchemieKonfiguration implements Serializable, Named<AlchemieKonfig
 		return new AlchemieKonfiguration(listeEA, Rezept.getStandardListe(listeEA));
 	}
 
-	@Override
-	public int compareTo(AlchemieKonfiguration o) {
-		return 0;
-	}
 
 	@Override
 	public String getName() {

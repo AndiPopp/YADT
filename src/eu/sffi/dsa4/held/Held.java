@@ -4,12 +4,13 @@
 package eu.sffi.dsa4.held;
 
 import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.held.talente.TalentException;
 import eu.sffi.dsa4.held.talente.TalentWert;
+import eu.sffi.dsa4.util.AbstractNameConstructableObject;
 import eu.sffi.dsa4.util.Named;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
@@ -17,7 +18,7 @@ import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
  * @author Andi Popp
  *
  */
-public class Held implements Named<Held>{
+public class Held extends AbstractNameConstructableObject{
 	
 	/**
 	 * 
@@ -104,26 +105,20 @@ public class Held implements Named<Held>{
 	/**
 	 * Talentwerte des Helden
 	 */
-	public final SortedSet<TalentWert> talentWerte = new TreeSet<TalentWert>();
+	public final SortedMap<Talent, TalentWert> talentWerte = new TreeMap<Talent, TalentWert>();
 	
 	/**
 	 * Der Name des Helden
 	 */
-	public String name;
+	private String name;
 		
-	/**
-	 * Erstellt einen neuen "leeren" Helden
-	 */
-	public Held() {
-	
-	}
 	
 	/**
 	 * Erstellt einen neuen "leeren" Helden mit dem angegebenen Namen
 	 * @param name
 	 */
 	public Held(String name) {
-		this.name = name;
+		this(name, 0,0,0,0,0,0,0,0);
 	}
 
 	/**
@@ -133,7 +128,7 @@ public class Held implements Named<Held>{
 	 * @throws IllegalArgumentException wenn das Eingabefeld nicht exakt 8 Elemente hat
 	 */
 	public Held(String name, int[] eigenschatsWerte) throws IllegalArgumentException{
-		this.name = name;
+		super(name);
 		
 		//Länge der Eingabe prüfen
 		if (eigenschatsWerte.length != 8) throw new IllegalArgumentException("Eigenschaftsfelder für Helden müssen exakt 8 Elemente haben");
@@ -157,7 +152,7 @@ public class Held implements Named<Held>{
 	 * @param kk Der Körperkraft-Wert des Helden
 	 */
 	public Held(String name, int mu, int kl, int in, int ch, int ff, int ge, int ko, int kk){
-		this.name = name;
+		super(name);
 		this.eigenschaft[0] = mu;
 		this.eigenschaft[1] = kl;
 		this.eigenschaft[2] = in;
@@ -192,27 +187,39 @@ public class Held implements Named<Held>{
 	 * @return
 	 */
 	public TalentWert getTalentWert(Talent talent){
-		//TODO Könnte wahrscheinlich effizienter sein
-		for (Iterator<TalentWert> it=this.talentWerte.iterator();it.hasNext();){
-			TalentWert talentWert = it.next();
-			if (talentWert.getTalent().equals(talent)) return talentWert;
-		}
-		return null;
+		return this.talentWerte.get(talent);
 	}
+	
+	
 	
 	public void addTalentWert(Talent talent, int tap) throws TalentException{
 		if (this.getTalentWert(talent) != null) throw new TalentException(this.name+" hat bereits einen Wert für das Talent "+talent.getName()+"("+talent+")");
-		this.talentWerte.add(talent.getTalentWert(tap, this));
+		this.talentWerte.put(talent, talent.getTalentWert(tap, this));
 	}
 
 	@Override
-	public int compareTo(Held o) {
+	public int compareTo(Named o) {
 		return this.getName().compareTo(o.getName());
 	}
 
 	@Override
 	public String getName() {
 		return this.name;
+	}
+
+	@Override
+	public String initName(String name) {
+		if (this.name == null) this.name = name;
+		return this.name;
+	}
+
+	@Override
+	public Object getBabyObject(String name) {
+		return new Held(name);
+	}
+
+	public static Held getFather(){
+		return new Held("Los, der Allgott. Der Vater alles göttlichen auf der Erde!");
 	}
 
 }

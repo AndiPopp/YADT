@@ -4,13 +4,13 @@
 package eu.sffi.dsa4.alchemie;
 
 import eu.sffi.dsa4.kalender.AventurischesDatum;
-import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.AbstractNamedObject;
 
 /**
  * @author Andi Popp
  * Eine Portion eines bestimmten Elixiers
  */
-public class Elixier implements Named<Elixier>{
+public class Elixier extends AbstractNamedObject{
 
 	/**
 	 * 
@@ -92,9 +92,5 @@ public class Elixier implements Named<Elixier>{
 		return this.name;
 	}
 
-	@Override
-	public int compareTo(Elixier o) {
-		return this.getName().compareTo(o.getName());
-	}
 	
 }
