@@ -9,11 +9,9 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -38,10 +36,10 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 	 */
 	private static final long serialVersionUID = 8693734682872402364L;
 
-	/**
-	 * An instance of the object to create new Instances from
-	 */
-	private final T fatherObject;
+//	/**
+//	 * An instance of the object to create new Instances from
+//	 */
+//	private final T fatherObject;
 	
 	/**
 	 * Die Datenbank von Namens-Objekten, die durch diesen Editor gemanaged wird
@@ -63,11 +61,10 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 	 */
 	protected String title;
 	
-	public YADTAbstractNamedObjectEditor(SimplePersistentNamedCollection<T> objectSet,  YADTMainContentPane parent, T father){
+	public YADTAbstractNamedObjectEditor(SimplePersistentNamedCollection<T> objectSet,  YADTMainContentPane parent){
 		title = this.toString();
 		this.objectSet = objectSet;
 		this.parent = parent;
-		this.fatherObject = father;
 		
 		//Set Layout
 		this.setLayout(new BorderLayout());
@@ -231,7 +228,7 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 	 * 		weil der Name bereits vorhanden war)
 	 */
 	public boolean newObject(String name){
-		T newObject = (T) fatherObject.getBabyObject(name);
+		T newObject = getNewObject(name);
 		if (!this.objectSet.containsName(name)) {
 			this.objectSet.putObject(newObject);
 			
@@ -255,6 +252,8 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 			return false;
 		}
 	}
+	
+	public abstract T getNewObject(String name);
 	
 	/**
 	 * Standardmäßig versucht die abstrakte Klasse alle ActionEvents die sie

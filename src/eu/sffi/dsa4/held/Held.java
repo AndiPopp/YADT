@@ -213,13 +213,4 @@ public class Held extends AbstractNameConstructableObject{
 		return this.name;
 	}
 
-	@Override
-	public Object getBabyObject(String name) {
-		return new Held(name);
-	}
-
-	public static Held getFather(){
-		return new Held("Los, der Allgott. Der Vater alles göttlichen auf der Erde!");
-	}
-
 }

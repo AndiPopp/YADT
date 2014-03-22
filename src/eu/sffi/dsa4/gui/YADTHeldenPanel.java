@@ -45,7 +45,7 @@ public class YADTHeldenPanel extends YADTAbstractNamedObjectEditor<Held> impleme
 	
  	public YADTHeldenPanel(SpielgruppenKonfiguration spielgruppenKonfiguration, YADTMainContentPane parent){
 		//Globale Variablen setzen
- 		super(spielgruppenKonfiguration.heldenListe, parent, Held.getFather());
+ 		super(spielgruppenKonfiguration.heldenListe, parent);
 	}
 
 
@@ -132,6 +132,12 @@ public class YADTHeldenPanel extends YADTAbstractNamedObjectEditor<Held> impleme
 	@Override
 	public String toString(){
 		return "Helden";
+	}
+
+
+	@Override
+	public Held getNewObject(String name) {
+		return new Held(name);
 	}
 
 

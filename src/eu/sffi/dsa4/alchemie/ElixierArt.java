@@ -81,14 +81,7 @@ public class ElixierArt extends AbstractNameConstructableObject{
 	}
 
 
-	@Override
-	public Object getBabyObject(String name) {
-		return new ElixierArt(name, ElixierGruppe.KEINE, 0);
-	}
 
-	public static ElixierArt getFather(){
-		return new ElixierArt("DER VATER ALLER ELEXIERARTEN!\n!#!#!#!", (byte) 0, 0);
-	}
 
 
 }

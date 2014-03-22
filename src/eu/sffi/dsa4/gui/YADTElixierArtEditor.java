@@ -47,7 +47,7 @@ public class YADTElixierArtEditor extends YADTAbstractNamedObjectEditor<ElixierA
 	 * 
 	 */
 	public YADTElixierArtEditor(AlchemieKonfiguration alchemieKonfiguration, YADTMainContentPane parent) {
-		super(alchemieKonfiguration.elixierArten, parent, ElixierArt.getFather());
+		super(alchemieKonfiguration.elixierArten, parent);
 	}
 	
 	
@@ -135,6 +135,12 @@ public class YADTElixierArtEditor extends YADTAbstractNamedObjectEditor<ElixierA
 		
 		//return
 		return mainConentPanel;
+	}
+
+
+	@Override
+	public ElixierArt getNewObject(String name) {
+		return new ElixierArt(name, ElixierGruppe.KEINE, 0);
 	}
 
 

@@ -35,12 +35,4 @@ public abstract class AbstractNameConstructableObject extends AbstractNamedObjec
 		}
 	}
 
-	/**
-	 * Ich muss hier aufgeben mit den Generics. Diese Funktion ruft nur 
-	 * den üblichen Konstruktor im dynamischen Kontext auf.
-	 * @param name
-	 * @return
-	 */
-	public abstract Object getBabyObject(String name);
-
 }
