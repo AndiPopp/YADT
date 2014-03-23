@@ -3,8 +3,11 @@
  */
 package eu.sffi.dsa4.held.talente;
 
+import java.util.TreeMap;
+
 import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.util.Named;
+import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
 /**
  * @author Andi Popp
@@ -16,15 +19,39 @@ public abstract class Talent implements Named{
 	 * 
 	 */
 	private static final long serialVersionUID = 2176605079246353482L;
-	public static final WuerfelTalent ALCHEMIE = new WuerfelTalent("Alchemie", Held.MU, Held.KL, Held.FF);
-	public static final WuerfelTalent KOCHEN = new WuerfelTalent("Kochen", Held.KL, Held.IN, Held.FF);
 	
-	public abstract String getName();
+	/**
+	 * Der Name des Talents
+	 */
+	protected String name;
+	
+	//TODO Alle Talente
+	public static final SimplePersistentNamedCollection<Talent> getStandardListe(){
+		SimplePersistentNamedCollection<Talent> liste = new SimplePersistentNamedCollection<Talent>();
+		
+		//Handwerk
+		liste.putObject(new WuerfelTalent("Abrichten", Held.MU, Held.IN, Held.CH));
+		liste.putObject(new WuerfelTalent("Ackerbau", Held.IN, Held.FF, Held.KO));
+		liste.putObject(new WuerfelTalent("Alchemie", Held.MU, Held.KL, Held.FF));
+		liste.putObject(new WuerfelTalent("Kochen", Held.KL, Held.IN, Held.FF));
+		
+		//return
+		return liste;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
 
 	public abstract TalentWert getTalentWert(int tap, Held held);
 	
 	public int compareTo(Named talent){
 		return this.getName().compareTo(talent.getName());
+	}
+	
+	//Overrides
+	public String toString(){
+		return this.getName();
 	}
 }
 

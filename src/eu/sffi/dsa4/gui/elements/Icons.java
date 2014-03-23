@@ -21,6 +21,7 @@ public class Icons {
 	public static final ImageIcon SAVE_ICON = getICON("media/icons/document-save.png");
 	public static final ImageIcon SAVE_AS_ICON = getICON("media/icons/document-save-as.png");
 	public static final ImageIcon SWORD_ICON = getICON("media/icons/nicubunu_Toy_Sword.png");
+	public static final ImageIcon DICE_ICON = getICON("media/icons/dice.png");
 	
 	private static final ImageIcon getICON(String fileName){
 		ImageIcon tempIcon = new ImageIcon(fileName);

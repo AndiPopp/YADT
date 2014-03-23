@@ -3,16 +3,11 @@
  */
 package eu.sffi.dsa4.gui;
 
-import java.awt.Desktop;
 import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenu;
@@ -54,12 +49,28 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 
 	private final YADTMainFrame parent;
 
-	
+	private JFileChooser fileChooser;
 	
 	public YADTMainMenu(YADTMainFrame parent){
 	//Globale Variablen initialisieren		
 	this.parent = parent;
-		
+	this.fileChooser = new JFileChooser(){
+	    @Override
+	    public void approveSelection(){
+	        File f = getSelectedFile();
+	        if(f.exists() && getDialogType() == SAVE_DIALOG){
+	            int result = JOptionPane.showConfirmDialog(this,"Diese Datei besteht bereits, überschreiben?","Existing file",JOptionPane.OK_CANCEL_OPTION);
+	            switch(result){
+	                case JOptionPane.OK_OPTION:
+	                    super.approveSelection();
+	                    return;
+	                case JOptionPane.CANCEL_OPTION:
+	                    return;
+	            }
+	        }
+	        super.approveSelection();
+	    }        
+	};
 	
 	JMenuItem menuItem;
 	//Datei Menu
@@ -126,6 +137,9 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		else if (actionEvent.getActionCommand().equals(ACTION_SAVE)){
 			saveSpielgruppe();
 		}
+		else if (actionEvent.getActionCommand().equals(ACTION_SAVE_AS)){
+			saveAsSpielgruppe();
+		}
 		else if (actionEvent.getActionCommand().equals(ACTION_OPEN)){
 			openSpielgruppe();
 		}
@@ -159,8 +173,8 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 					if (confirm != JOptionPane.OK_OPTION) return false;
 				}
 		
+		this.parent.saveFile = null;
 		parent.start(SpielgruppenKonfiguration.getStandadard());
-		this.parent.updateFrameTitle();
 		return true;
 	}
 	
@@ -169,16 +183,30 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	 * @return true wenn das speichern erfolgreich war, false sonst
 	 */
 	private boolean saveSpielgruppe(){
+		if (parent.saveFile != null) return saveSpielgruppe(parent.saveFile);
+		else return saveAsSpielgruppe();
+	}
+	
+	private boolean saveAsSpielgruppe(){
 		File saveFile;
-		if (parent.saveFile != null) saveFile = parent.saveFile;
-		else{
-			JFileChooser fileChooser = new JFileChooser();
-			int returnState = fileChooser.showSaveDialog(this.parent);
-			
-			if (returnState == JFileChooser.APPROVE_OPTION)	saveFile = fileChooser.getSelectedFile();
-			else return false;
-		}
 		
+		int returnState = fileChooser.showSaveDialog(this.parent);
+		
+		if (returnState == JFileChooser.APPROVE_OPTION)	saveFile = fileChooser.getSelectedFile();
+		else return false;
+		
+		boolean saveSuccesful = saveSpielgruppe(saveFile);
+		
+		if (saveSuccesful){
+			this.parent.saveFile = saveFile;
+			this.parent.updateFrameTitle();
+			return true;
+		}
+		else return false;
+		
+	}
+	
+	private boolean saveSpielgruppe(File saveFile){
 		try {
 			parent.mainContentPane.spielgruppenKonfiguration.save(saveFile);
 		} catch (IOException e) {
@@ -194,7 +222,6 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	 * @return true wenn das Öffnen erfolgreich war, false sonst
 	 */
 	private boolean openSpielgruppe(){
-		JFileChooser fileChooser = new JFileChooser();
 		
 		//Aktuelle Änderungen abfragen
 		if (this.parent.unsavedChangesFlag){

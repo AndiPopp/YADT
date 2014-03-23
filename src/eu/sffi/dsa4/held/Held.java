@@ -3,6 +3,7 @@
  */
 package eu.sffi.dsa4.held;
 
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -65,6 +66,8 @@ public class Held extends AbstractNameConstructableObject{
 	 */
 	public static final byte KK = 7;
 	
+	public static final int ANZAHL_EIGENSCHAFTEN = 8;
+	
 	/**
 	 * Gibt den zu einer Eigenschafts-Konstante korrespondierenden String aus
 	 * @param eigenschaft Die Eigenschafts-Konstante
@@ -91,16 +94,16 @@ public class Held extends AbstractNameConstructableObject{
 	public static final SimplePersistentNamedCollection<Held> emptyHeldenListe(){
 		return new SimplePersistentNamedCollection<Held>();
 	}
-	
+
 	/**
 	 * Feld der Eigenschaftswerte
 	 */
-	public final int[] eigenschaft = new int[8];
+	public final int[] eigenschaft = new int[ANZAHL_EIGENSCHAFTEN];
 	
 	/**
 	 * Temporäre Modifikationen z.B. durch Tränke
 	 */
-	public final int[] eigenschaftsModifkator = new int[8];
+	public final int[] eigenschaftsModifkator = new int[ANZAHL_EIGENSCHAFTEN];
 	
 	/**
 	 * Talentwerte des Helden
@@ -131,7 +134,7 @@ public class Held extends AbstractNameConstructableObject{
 		super(name);
 		
 		//Länge der Eingabe prüfen
-		if (eigenschatsWerte.length != 8) throw new IllegalArgumentException("Eigenschaftsfelder für Helden müssen exakt 8 Elemente haben");
+		if (eigenschatsWerte.length != ANZAHL_EIGENSCHAFTEN) throw new IllegalArgumentException("Eigenschaftsfelder für Helden müssen exakt "+ANZAHL_EIGENSCHAFTEN+" Elemente haben");
 		
 		//Eingaben übertragen
 		for (int i = 0; i < eigenschatsWerte.length; i++){
@@ -190,7 +193,13 @@ public class Held extends AbstractNameConstructableObject{
 		return this.talentWerte.get(talent);
 	}
 	
-	
+	public void printTalentWert(PrintStream out){
+		out.println("Talente von "+this.getName());
+		for (Iterator<TalentWert> it = this.talentWerte.values().iterator(); it.hasNext();){
+			TalentWert talentWert = it.next();
+			out.println(talentWert.getTalent().getName()+": "+talentWert.getTAP());
+		}
+	}
 	
 	public void addTalentWert(Talent talent, int tap) throws TalentException{
 		if (this.getTalentWert(talent) != null) throw new TalentException(this.name+" hat bereits einen Wert für das Talent "+talent.getName()+"("+talent+")");

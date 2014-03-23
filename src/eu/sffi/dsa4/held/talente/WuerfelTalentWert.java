@@ -19,10 +19,17 @@ public class WuerfelTalentWert extends TalentWert {
 		return this.talent;
 	}
 
-	private final int tap;
+	private int tap;
+	
 	@Override
 	public int getTAP() {
 		return this.tap;
+	}
+	
+	@Override
+	public void setTAP(int tap) {
+		this.tap = tap;
+		
 	}
 
 	private final Held held;
@@ -113,13 +120,9 @@ public class WuerfelTalentWert extends TalentWert {
 	}
 
 	
+
+	
 	
 	//TODO Werfen mit Spezialisierung
-
-
-	
-
-	
-
 	
 }

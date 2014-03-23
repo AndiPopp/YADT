@@ -12,6 +12,7 @@ import java.io.ObjectOutputStream;
 
 import eu.sffi.dsa4.alchemie.AlchemieKonfiguration;
 import eu.sffi.dsa4.held.Held;
+import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.util.Saveable;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
@@ -33,25 +34,29 @@ public class SpielgruppenKonfiguration implements Saveable{
 	
 	public SimplePersistentNamedCollection<Held> heldenListe;
 	
-	/**
-	 * 
-	 * @param alchemieKonfiguration
-	 * @param heldenListe
-	 */
-	public SpielgruppenKonfiguration(AlchemieKonfiguration alchemieKonfiguration,
-			SimplePersistentNamedCollection<Held> heldenListe) {
-		this.alchemieKonfiguration = alchemieKonfiguration;
-		this.heldenListe = heldenListe;
-	}
+	public SimplePersistentNamedCollection<Talent> talentListe;
 	
+	
+	
+	public SpielgruppenKonfiguration(
+			SimplePersistentNamedCollection<Held> heldenListe,
+			SimplePersistentNamedCollection<Talent> talentListe,
+			AlchemieKonfiguration alchemieKonfiguration) {
+		this.heldenListe = heldenListe;
+		this.talentListe = talentListe;
+		this.alchemieKonfiguration = alchemieKonfiguration;
+	}
+
 	/**
 	 * "Leere" Standardliste
 	 * @return eine "leere" Standardliste
 	 */
 	public static SpielgruppenKonfiguration getStandadard(){
 		return new SpielgruppenKonfiguration(
-				AlchemieKonfiguration.getStandardKonfiguration(), //Alchemie-Konfiguration
-				Held.emptyHeldenListe()); //Heldenliste
+				Held.emptyHeldenListe(), //Heldenliste
+				Talent.getStandardListe(), //Talentliste
+				AlchemieKonfiguration.getStandardKonfiguration() //Alchemie-Konfiguration
+				); 
 	}
 	
 	 @Override

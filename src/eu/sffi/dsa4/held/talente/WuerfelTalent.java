@@ -21,10 +21,7 @@ public class WuerfelTalent extends Talent {
 	 */
 	public final byte[] eigenschaft = new byte[3];
 	
-	/**
-	 * Der Name des Talents
-	 */
-	private final String name;
+	
 		
 	/**
 	 * 

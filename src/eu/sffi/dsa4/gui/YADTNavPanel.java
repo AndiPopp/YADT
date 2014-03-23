@@ -41,7 +41,7 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		
 		DefaultMutableTreeNode heldenRoot = new DefaultMutableTreeNode("Heldengruppe");
 		root.add(heldenRoot);
-			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenPanel(this.parent.spielgruppenKonfiguration, this.parent));
+			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenEditor(this.parent.spielgruppenKonfiguration, this.parent));
 			heldenRoot.add(helden);
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");

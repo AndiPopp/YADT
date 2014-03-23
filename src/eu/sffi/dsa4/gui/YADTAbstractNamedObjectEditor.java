@@ -175,6 +175,7 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 		}
 		else if (e.getActionCommand().equals("NamedObjectEditor:New")){
 			String neuerName = JOptionPane.showInputDialog("Bitte einen Namen für das neue Objekt eingeben:");
+			if (neuerName.equals("")) JOptionPane.showMessageDialog(this, "Name darf nicht leer sein", "Fehler", JOptionPane.ERROR_MESSAGE);
 			if (neuerName != null) newObject(neuerName);		
 		}
 		else if (e.getActionCommand().equals("NamedObjectEditor:Delete")){
