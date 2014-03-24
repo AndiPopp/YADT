@@ -261,8 +261,8 @@ public abstract class YADTAbstractNamedObjectEditor<T extends AbstractNameConstr
 	 * kennt selbst zu behandeln (Neu, Löschen). Events die sie nicht kennt
 	 * übergibt sie an diese Funktion der konkreten Klasse.
 	 * 
-	 * @param e
-	 * @return
+	 * @param e die Aktion die von actionperformed nicht verarbeitet wurde
+	 * @return true wenn die Funktion der konkreten Klasse die Action verarbeiten konnte, false sonst
 	 */
 	public abstract boolean specificActionPerformed(ActionEvent e);
 	

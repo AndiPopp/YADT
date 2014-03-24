@@ -28,6 +28,7 @@ import eu.sffi.dsa4.gui.elements.Spacing;
 import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.held.talente.TalentWert;
+import eu.sffi.dsa4.held.talente.WuerfelTalentWert;
 import eu.sffi.dsa4.util.VerboseOut;
 
 /**
@@ -197,7 +198,12 @@ public class YADTHeldenEditor extends YADTAbstractNamedObjectEditor<Held>
 			updateTalentwertSpinner();
 			this.currentlyAutoupdatingTalentWertSpinner = false;
 			return true;
-		} 
+		}
+		else if (e.getActionCommand().equals("HeldenEditor:TalentWerfen")){
+			boolean wuerfelTalent = wirfTalent();
+			if (!wuerfelTalent) JOptionPane.showMessageDialog(this, ((TalentWert)talentWertComboBox.getSelectedItem())+" ist kein werfbares Talent.", "Kann Talent nicht werfen	", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}
 		else return false;
 	}
 
@@ -269,6 +275,28 @@ public class YADTHeldenEditor extends YADTAbstractNamedObjectEditor<Held>
 		talentWertSpinner.setValue(selectedTalentWert.getTAP());
 		this.currentlyAutoupdatingTalentWertSpinner = false;
 		return true;
+	}
+
+	/**
+	 * Wirft das aktuell ausgewählte Talent mit der ausgewählten Erschwernis und
+	 * gibt das Ergebnis in einem MessageDialog aus.
+	 * @return true wenn das Talent gewürfelt wurde, false wenn es kein Würfeltalent war
+	 */
+	private boolean wirfTalent(){
+		TalentWert talentWert = (TalentWert) this.talentWertComboBox.getSelectedItem();
+		if (talentWert instanceof WuerfelTalentWert){
+			WuerfelTalentWert wuerfelTalentWert = (WuerfelTalentWert) talentWert;
+			int erschwernis = (Integer) this.erschwernisSpinner.getValue();
+			int tapStern = wuerfelTalentWert.werfen(erschwernis);
+			if (tapStern < 0){
+				JOptionPane.showMessageDialog(this, "Talentwurf misslungen mit TAP*="+tapStern, "Talentwurf misslungen", JOptionPane.WARNING_MESSAGE);
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "Talentwurf gelungen mit TAP*="+tapStern, "Talentwurf gelungen", JOptionPane.INFORMATION_MESSAGE);
+			}
+			return true;
+		}
+		else return false;
 	}
 	
 	@Override
