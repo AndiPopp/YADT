@@ -3,14 +3,14 @@
  */
 package eu.sffi.dsa4.alchemie;
 
+import eu.sffi.dsa4.items.Item;
 import eu.sffi.dsa4.kalender.AventurischesDatum;
-import eu.sffi.dsa4.util.AbstractNamedObject;
 
 /**
  * @author Andi Popp
  * Eine Portion eines bestimmten Elixiers
  */
-public class Elixier extends AbstractNamedObject{
+public class Elixier extends Item{
 
 	/**
 	 * 
@@ -39,11 +39,6 @@ public class Elixier extends AbstractNamedObject{
 	}
 	
 	/**
-	 * Der Name dieser Portion des Elixiers, wie er am Spieltisch zur Unterscheidung benutzt wird
-	 */
-	public final String name;
-	
-	/**
 	 * Die Art des Elixiers
 	 */
 	public final ElixierArt art;
@@ -54,14 +49,9 @@ public class Elixier extends AbstractNamedObject{
 	public final byte qualitaet;
 
 	/**
-	 * Datum an dem das Elixiers verdirbt
+	 * Datum an dem das Elixier verdirbt
 	 */
 	public final AventurischesDatum haltbarkeitsDatum;
-
-	/**
-	 * Eine Notiz zu einem Elixier
-	 */
-	public String note;
 	
 	/**
 	 * @param name
@@ -71,7 +61,7 @@ public class Elixier extends AbstractNamedObject{
 	 */
 	public Elixier(String name, ElixierArt art, byte qualitaet,
 			AventurischesDatum haltbarkeitsDatum) {
-		this.name = name;
+		super(100, name);
 		this.art = art;
 		this.qualitaet = qualitaet;
 		this.haltbarkeitsDatum = haltbarkeitsDatum;
@@ -81,16 +71,16 @@ public class Elixier extends AbstractNamedObject{
 		return buchstabeQualitaet(qualitaet);
 	}
 	
+	//Overrides
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Elixier)) return false;
 		return this.name.equals(((Elixier)obj).name);
 	}
-
-	@Override
-	public String getName() {
-		return this.name;
-	}
-
 	
+	@Override
+	public String getItemTyp(){
+		return "Elixier";
+	}
 }

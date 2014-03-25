@@ -15,6 +15,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeSelectionModel;
 
+import eu.sffi.dsa4.gui.panels.YADTAbstractToolPanel;
+import eu.sffi.dsa4.gui.panels.YADTBrauPanel;
+import eu.sffi.dsa4.gui.panels.YADTElixierArtEditor;
+import eu.sffi.dsa4.gui.panels.YADTHeldenEditor;
+
 /**
  * @author Andi Popp
  *
@@ -34,7 +39,7 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		this.parent = parent;
 		
 		//Größe modifizieren
-		this.setPreferredSize(new Dimension(250, 0));
+		this.setPreferredSize(new Dimension(230, 0));
 		
 		//Navigationsbaum erstellen
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
@@ -46,6 +51,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");
 		root.add(alchemieRoot);
+			DefaultMutableTreeNode brauPanel = new DefaultMutableTreeNode(new YADTBrauPanel(this.parent.spielgruppenKonfiguration.alchemieKonfiguration.alchemisten, this.parent));
+			alchemieRoot.add(brauPanel);
 			DefaultMutableTreeNode rezeptDatenbank = new DefaultMutableTreeNode("Rezeptdatenbank");
 			alchemieRoot.add(rezeptDatenbank);
 				DefaultMutableTreeNode elixierArtEditorNode = new DefaultMutableTreeNode(new YADTElixierArtEditor(this.parent.spielgruppenKonfiguration.alchemieKonfiguration, this.parent));

@@ -6,11 +6,15 @@ package eu.sffi.dsa4.held;
 import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import eu.sffi.dsa4.held.talente.Talent;
 import eu.sffi.dsa4.held.talente.TalentException;
 import eu.sffi.dsa4.held.talente.TalentWert;
+import eu.sffi.dsa4.items.HatInventar;
+import eu.sffi.dsa4.items.Item;
 import eu.sffi.dsa4.util.AbstractNameConstructableObject;
 import eu.sffi.dsa4.util.Named;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
@@ -19,7 +23,7 @@ import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
  * @author Andi Popp
  *
  */
-public class Held extends AbstractNameConstructableObject{
+public class Held extends AbstractNameConstructableObject implements HatInventar{
 	
 	/**
 	 * 
@@ -115,6 +119,7 @@ public class Held extends AbstractNameConstructableObject{
 	 */
 	private String name;
 		
+	public SortedSet<Item> inventar = new TreeSet<Item>();
 	
 	/**
 	 * Erstellt einen neuen "leeren" Helden mit dem angegebenen Namen
@@ -220,6 +225,11 @@ public class Held extends AbstractNameConstructableObject{
 	public String initName(String name) {
 		if (this.name == null) this.name = name;
 		return this.name;
+	}
+
+	@Override
+	public SortedSet<Item> getInventar() {
+		return this.inventar;
 	}
 
 }

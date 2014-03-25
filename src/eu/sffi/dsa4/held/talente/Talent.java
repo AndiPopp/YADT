@@ -3,7 +3,9 @@
  */
 package eu.sffi.dsa4.held.talente;
 
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.util.Named;
@@ -30,12 +32,24 @@ public abstract class Talent implements Named{
 		SimplePersistentNamedCollection<Talent> liste = new SimplePersistentNamedCollection<Talent>();
 		
 		//Handwerk
-		liste.putObject(new WuerfelTalent("Abrichten", Held.MU, Held.IN, Held.CH));
-		liste.putObject(new WuerfelTalent("Ackerbau", Held.IN, Held.FF, Held.KO));
-		liste.putObject(new WuerfelTalent("Alchemie", Held.MU, Held.KL, Held.FF));
-		liste.putObject(new WuerfelTalent("Kochen", Held.KL, Held.IN, Held.FF));
+		addHandwerkstalente(liste);
 		
 		//return
+		return liste;
+	}
+	
+	private static final SimplePersistentNamedCollection<Talent> addHandwerkstalente(SimplePersistentNamedCollection<Talent> liste){
+		Talent talentToAdd;
+		
+		talentToAdd = new WuerfelTalent("Abrichten", Held.MU, Held.IN, Held.CH);
+			liste.putObject(talentToAdd);	
+		talentToAdd = new WuerfelTalent("Ackerbau", Held.IN, Held.FF, Held.KO);
+			liste.putObject(talentToAdd);	
+		talentToAdd = new WuerfelTalent("Alchemie", Held.MU, Held.KL, Held.FF);
+			liste.putObject(talentToAdd);	
+		talentToAdd = new WuerfelTalent("Kochen", Held.KL, Held.IN, Held.FF);
+			liste.putObject(talentToAdd);	
+	
 		return liste;
 	}
 	

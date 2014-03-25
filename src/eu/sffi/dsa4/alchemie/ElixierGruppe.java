@@ -4,7 +4,6 @@
 package eu.sffi.dsa4.alchemie;
 
 import eu.sffi.dsa4.util.AbstractNamedObject;
-import eu.sffi.dsa4.util.Named;
 
 /**
  * @author Andi Popp

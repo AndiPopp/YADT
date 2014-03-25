@@ -3,6 +3,8 @@
  */
 package eu.sffi.dsa4.kalender;
 
+import java.io.Serializable;
+
 /**
  * @author Andi Popp
  * Eine Klasse für Tage nach dem aventurischen Kalender. Auf Stunden genau gerechnet (genauer wäre in Aventurien wohl unüblich). 
@@ -10,7 +12,13 @@ package eu.sffi.dsa4.kalender;
  * 
  * Die Klasse arbeitet bisher nur mit Daten nach BF ordentlich.
  */
-public class AventurischesDatum {
+public class AventurischesDatum implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6658344931923758969L;
+	
 	/**
 	 * Der time stamp in Stunden seit dem 1. Praios 0 BF 0:00
 	 */
@@ -22,6 +30,14 @@ public class AventurischesDatum {
 	public AventurischesDatum(long timestamp) {
 		if (timestamp == 0); 
 		this.timestamp = timestamp;
+	}
+	
+	public AventurischesDatum(int jahr, AventurischerMonat monat, int tag){
+		this(jahr, monat.wert, tag, 1);
+	}
+	
+	public AventurischesDatum(int jahr, AventurischerMonat monat, int tag, int stunde){
+		this(jahr, monat.wert, tag, stunde);
 	}
 	
 	/**
@@ -75,9 +91,9 @@ public class AventurischesDatum {
 	 * Das Jahr des Datums bzgl. Bosparans Fall
 	 * @return Das Jahr des Datums bzgl. Bosparans Fall
 	 */
-	public long getNumerischesJahr(){
-		if (this.timestamp<0) return this.timestamp/(365*24)-1;
-		return this.timestamp/(365*24);
+	public int getNumerischesJahr(){
+		if (this.timestamp<0) return (int) this.timestamp/(365*24)-1;
+		return (int) this.timestamp/(365*24);
 	}
 	
 	/**
@@ -101,31 +117,8 @@ public class AventurischesDatum {
 	 * Der Monat als Wort
 	 * @return Der Monat als Wort
 	 */
-	public String getMonat(){
-		return translateMonat(getNumerischenMonat());
-	}
-	
-	/**
-	 * Übersetzt einen numerischen Monat in einen Göttermonat
-	 * @param monat
-	 * @return Ein String der die dreibuchstabige Abkürzung des Gottes darstellt
-	 */
-	public static String translateMonat(byte monat){
-		switch (monat){
-			case  1: return "PRA";
-			case  2: return "RON";
-			case  3: return "EFF";
-			case  4: return "TRA";
-			case  5: return "BOR";
-			case  6: return "HES";
-			case  7: return "FIR";
-			case  8: return "TSA";
-			case  9: return "PHE";
-			case 10: return "PER";
-			case 11: return "ING";
-			case 12: return "RAH";
-			default: throw new IllegalArgumentException("Fehler beim Übersetzen eines Monats. Muss zwischen 1 und 13 liegen");
-		}
+	public AventurischerMonat getMonat(){
+		return new AventurischerMonat(getNumerischenMonat());
 	}
 	
 	/**
@@ -152,8 +145,25 @@ public class AventurischesDatum {
 		return (byte) (this.timestamp % (365*24) % (30*24) % 24 + 1);
 	}
 
+	public AventurischerWochentag getWochentag(){
+		long tage = timestamp/24;
+		byte wochentag = (byte) ((tage+4)%7);
+		return new AventurischerWochentag(wochentag);
+	}
+	
+	@Override
 	public String toString(){
 		return getNumerischenTag()+". "+getMonat()+" "+getNumerischesJahr()+" BF, "+getNumerischeStunde()+". Stunde";
+	}
+	
+	/**
+	 * Gibt einen String aus, der ausschließlich das kalendarische 
+	 * Datum ohne Tageszeit angibt
+	 * @return einen String aus, der ausschließlich das kalendarische 
+	 * Datum ohne Tageszeit angibt
+	 */
+	public String toShortString(){
+		return getNumerischenTag()+". "+getMonat()+" "+getNumerischesJahr()+" BF";
 	}
 
 	public void add(long stunden){
@@ -184,4 +194,5 @@ public class AventurischesDatum {
 	public AventurischesDatum clone(){
 		return new AventurischesDatum(this.timestamp);
 	}
+	
 }

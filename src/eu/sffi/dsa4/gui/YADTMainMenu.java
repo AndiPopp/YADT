@@ -55,7 +55,9 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 	//Globale Variablen initialisieren		
 	this.parent = parent;
 	this.fileChooser = new JFileChooser(){
-	    @Override
+		private static final long serialVersionUID = -9177539004199080833L;
+
+		@Override
 	    public void approveSelection(){
 	        File f = getSelectedFile();
 	        if(f.exists() && getDialogType() == SAVE_DIALOG){
@@ -235,7 +237,9 @@ public class YADTMainMenu extends JMenuBar implements ActionListener {
 		if (returnState == JFileChooser.APPROVE_OPTION){
 			File file = fileChooser.getSelectedFile();
 			try {
-				this.parent.start(SpielgruppenKonfiguration.load(file));
+				SpielgruppenKonfiguration spielgruppenKonfiguration = SpielgruppenKonfiguration.load(file);
+				spielgruppenKonfiguration.integrityCheck();
+				this.parent.start(spielgruppenKonfiguration);
 				this.parent.saveFile = file;
 				this.parent.updateFrameTitle();
 			} catch (ClassNotFoundException e) {

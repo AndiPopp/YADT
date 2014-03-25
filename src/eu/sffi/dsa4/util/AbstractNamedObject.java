@@ -8,7 +8,7 @@ package eu.sffi.dsa4.util;
  *
  */
 public abstract class AbstractNamedObject implements Named{
-	
+
 	@Override
 	public abstract String getName();
 	

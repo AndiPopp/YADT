@@ -64,7 +64,7 @@ public class YADTMainFrame extends JFrame implements ActionListener, ChecksCurre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setMinimumSize(new Dimension(400, 300));
-		setPreferredSize(new Dimension(800, 600));
+		setPreferredSize(new Dimension(900, 600));
 		
 		//Create the content pane
 		contentPane = new JPanel();

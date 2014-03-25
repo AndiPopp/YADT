@@ -25,15 +25,6 @@ public class Rezept extends AbstractNamedObject{
 	 * 
 	 */
 	private static final long serialVersionUID = 8991166731732262322L;
-	public static final byte LABOR_ARCHAISCH = 0;
-	public static final byte LABOR_HEXENKUECHE = 1;
-	public static final byte LABOR_ALCHEMIELABOR = 2;
-	
-	public static final byte LABOR_QUALITAET_SCHLECHT = 0;
-	public static final byte LABOR_QUALITAET_NORMAL = 1;
-	public static final byte LABOR_QUALITAET_HOCHWERTIG = 2;
-	public static final byte LABOR_QUALITAET_AUSSERGEWOEHNLICH = 3;
-	
 	/**
 	 * Der Name des Rezepts
 	 */
@@ -68,7 +59,7 @@ public class Rezept extends AbstractNamedObject{
 	/**
 	 * Erschwernis auf die Alchemie-Probe für dieses Rezept
 	 */
-	public final int brauModifikator;
+	public final int brauSchwierigkeit;
 	
 	/**
 	 * Die Verbreitung der Rezeptur
@@ -104,7 +95,7 @@ public class Rezept extends AbstractNamedObject{
 		this.beschaffungsPreis = beschaffungsPreis;
 		this.beschaffungsWahrscheinlichkeit = beschaffungsWahrscheinlichkeit;
 		this.labor = labor;
-		this.brauModifikator = brauModifikator;
+		this.brauSchwierigkeit = brauModifikator;
 		this.verbreitung = verbreitung;
 		this.haltbarkeit = haltbarkeit;
 	}
@@ -121,7 +112,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Antidot"), 			//elixierArt 
 				250, 												//beschaffungsPreis
 				9, 													//beschaffungsWahrscheinlichkeit 
-				LABOR_HEXENKUECHE, 									//labor, 
+				LaborTyp.HEXENKUECHE, 									//labor, 
 				5,													//brauModifikator 
 				5,													//verbreitung 
 				new Haltbarkeit(new W6Wurf(2,30), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -130,7 +121,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Furchtlos-Tropfen"),	//elixierArt 
 				100, 												//beschaffungsPreis
 				12, 												//beschaffungsWahrscheinlichkeit 
-				LABOR_ARCHAISCH, 									//labor, 
+				LaborTyp.ARCHAISCH, 									//labor, 
 				3,													//brauModifikator 
 				4,													//verbreitung 
 				new Haltbarkeit(new W3Wurf(1,3), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -139,7 +130,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Heiltrank"), 			//elixierArt 
 				50, 												//beschaffungsPreis
 				14, 												//beschaffungsWahrscheinlichkeit 
-				LABOR_ARCHAISCH, 									//labor, 
+				LaborTyp.ARCHAISCH, 									//labor, 
 				2,													//brauModifikator 
 				7,													//verbreitung 
 				new Haltbarkeit(new W6Wurf(1,20), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -148,7 +139,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Pastillen gegen Erschöpfung"), //elixierArt 
 				50, 												//beschaffungsPreis
 				11, 												//beschaffungsWahrscheinlichkeit 
-				LABOR_HEXENKUECHE, 									//labor, 
+				LaborTyp.HEXENKUECHE, 									//labor, 
 				4,													//brauModifikator 
 				6,													//verbreitung 
 				new Haltbarkeit(new W3Wurf(1,7), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -157,7 +148,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Prophylaktika"), 		//elixierArt 
 				180, 												//beschaffungsPreis
 				4, 													//beschaffungsWahrscheinlichkeit 
-				LABOR_ALCHEMIELABOR,								//labor, 
+				LaborTyp.ALCHEMIELABOR,								//labor, 
 				7,													//brauModifikator 
 				4,													//verbreitung 
 				new Haltbarkeit(new W3Wurf(1,4), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -166,7 +157,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Pulver des klaren Geistes"), 			//elixierArt 
 				80, 												//beschaffungsPreis
 				14, 												//beschaffungsWahrscheinlichkeit 
-				LABOR_ARCHAISCH, 									//labor, 
+				LaborTyp.ARCHAISCH, 									//labor, 
 				3,													//brauModifikator 
 				4,													//verbreitung 
 				new Haltbarkeit(new W6Wurf(1,3), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -175,7 +166,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Restorarium"), 		//elixierArt 
 				600, 												//beschaffungsPreis
 				3, 													//beschaffungsWahrscheinlichkeit 
-				LABOR_ALCHEMIELABOR,								//labor, 
+				LaborTyp.ALCHEMIELABOR,								//labor, 
 				6,													//brauModifikator 
 				3,													//verbreitung 
 				new Haltbarkeit(new W6Wurf(3,3), Haltbarkeit.WOCHEN)));	//haltbarkeit
@@ -184,7 +175,7 @@ public class Rezept extends AbstractNamedObject{
 				listeElixierArten.getObject("Schlaftrunk"), 		//elixierArt 
 				100, 												//beschaffungsPreis
 				10, 												//beschaffungsWahrscheinlichkeit 
-				LABOR_ARCHAISCH, 									//labor, 
+				LaborTyp.ARCHAISCH, 									//labor, 
 				3,													//brauModifikator 
 				5,													//verbreitung 
 				new Haltbarkeit(new W3Wurf(1,10), Haltbarkeit.MONATE)));	//haltbarkeit
@@ -192,14 +183,29 @@ public class Rezept extends AbstractNamedObject{
 		return liste;
 	}
 
+	/**
+	 * 
+	 * @param talentWert Der Talentwert auf den die Probe gewürfelt wird
+	 * @param labor Der Typ des Labors
+	 * @param laborQualitaet Die Laborqualität
+	 * @param erleichterungMeisterhandwerk Erleichtertung durch Meisterhandwerk
+	 * @param sonstigeProbeErschwerniss Sonstiger Probe-Erschwernis
+	 * @param zurueckgehalteneTAP Zurückgehaltene TAP für Qualität
+	 * @param qualitaetsBonusASP Qualitätsbonus durch Astralpunkte-Einsatz
+	 * @param sonstigerQualitaetsBonus Sonstiger Qualitätsbonus
+	 * @param brauDatum Brau-Datum
+	 * @param wuerfel Der Würfel mit dem geworfen wird
+	 * @return Das aus dem Brauvorgang entstandene Elixier
+	 * @throws AlchemieException Wenn die Voraussetzungen nicht ausreichen um das Rezept zur brauen
+	 */
 	public Elixier brauen(WuerfelTalentWert talentWert, 
 			byte labor, 
 			byte laborQualitaet, 
-			int modifikatorMeisterhandwerk,
-			int sonstigerProbeModifikator,
+			int erleichterungMeisterhandwerk,
+			int sonstigeProbeErschwerniss,
 			int zurueckgehalteneTAP, 
 			int qualitaetsBonusASP, 
-			int sonstigerQualitaetsModifikator,
+			int sonstigerQualitaetsBonus,
 			AventurischesDatum brauDatum,
 			Wuerfel wuerfel) throws AlchemieException{
 		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+" will das Rezept "+this.name+" brauen.");
@@ -208,7 +214,7 @@ public class Rezept extends AbstractNamedObject{
 		WuerfelTalentWert effektiverTalentWert = new WuerfelTalentWert((WuerfelTalent)talentWert.getTalent(), talentWert.getTAP()-zurueckgehalteneTAP, talentWert.getHeld());
 		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+"s Talentwert in "+talentWert.getTalent().getName()+" beträgt "+talentWert.getTAP()+".");		
 		VerboseOut.CONSOLE.println("Er/Sie hält "+zurueckgehalteneTAP+" TAP zurück. Der effektive Talentwert beträgt damit "+effektiverTalentWert.getTAP()+".");
-		if (zurueckgehalteneTAP < 2 || zurueckgehalteneTAP > talentWert.getTAP()-this.brauModifikator){
+		if (zurueckgehalteneTAP > 0 && (zurueckgehalteneTAP < 2 || zurueckgehalteneTAP > talentWert.getTAP()-this.brauSchwierigkeit)){
 			VerboseOut.CONSOLE.println("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit). Probe wird abgebrochen.");
 			VerboseOut.CONSOLE.println();
 			throw new AlchemieException("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit).");
@@ -217,8 +223,8 @@ public class Rezept extends AbstractNamedObject{
 		//PROBEMODIFIKATOREN
 		int modifikator = 0;
 		//Meisterhandwerk
-		modifikator -= modifikatorMeisterhandwerk;
-		VerboseOut.CONSOLE.println("Durch Meisterhandwerk wird die Probe um "+modifikatorMeisterhandwerk+" Punkt erleichtert."+" (Summe der Modifikationen bisher "+modifikator+")");
+		modifikator -= erleichterungMeisterhandwerk;
+		VerboseOut.CONSOLE.println("Durch Meisterhandwerk wird die Probe um "+erleichterungMeisterhandwerk+" Punkt erleichtert."+" (Summe der Modifikationen bisher "+modifikator+")");
 		//Modifikatoren für die Laborstufe
 		if (labor-this.labor == 2) { //zwei stufen besser
 			modifikator -= 3; 
@@ -238,15 +244,15 @@ public class Rezept extends AbstractNamedObject{
 		}
 		
 		//Modifikatoren für Laborqualität
-		if (laborQualitaet == LABOR_QUALITAET_SCHLECHT) {
+		if (laborQualitaet == Laborqualitaet.SCHLECHT) {
 			modifikator += 3;
 			VerboseOut.CONSOLE.println("Die Laborqualität ist schlecht, die Probe wird um 3 Punkt erschwert."+" (Summe der Modifikationen bisher "+modifikator+")");
 		}
-		else if (laborQualitaet == LABOR_QUALITAET_HOCHWERTIG){
+		else if (laborQualitaet == Laborqualitaet.HOCHWERTIG){
 			modifikator -= 3;
 			VerboseOut.CONSOLE.println("Die Laborqualität ist hochwertig, die Probe wird um 3 Punkt erleichtert."+" (Summe der Modifikationen bisher "+modifikator+")");
 		}
-		else if (laborQualitaet == LABOR_QUALITAET_AUSSERGEWOEHNLICH){
+		else if (laborQualitaet == Laborqualitaet.AUSSERGEWOEHNLICH){
 			modifikator -= 7;
 			VerboseOut.CONSOLE.println("Die Laborqualität ist außergewöhnlich hochwertig, die Probe wird um 7 Punkt erleichtert."+" (Summe der Modifikationen bisher "+modifikator+")");
 		}
@@ -255,13 +261,13 @@ public class Rezept extends AbstractNamedObject{
 		}
 		
 		//Brau-Modifikator des Rezept
-		modifikator += this.brauModifikator;
-		VerboseOut.CONSOLE.println("Das Rezept hat einen Aufschlag für die Brauschwierigkeit von "+this.brauModifikator+" (Summe der Modifikationen bisher "+modifikator+")");
+		modifikator += this.brauSchwierigkeit;
+		VerboseOut.CONSOLE.println("Das Rezept hat einen Aufschlag für die Brauschwierigkeit von "+this.brauSchwierigkeit+" (Summe der Modifikationen bisher "+modifikator+")");
 		
 		
 		//Sonstiger Modifikator
-		modifikator += sonstigerProbeModifikator;
-		VerboseOut.CONSOLE.println("Sonstige Erschwerungen betragen "+sonstigerProbeModifikator+" Punkte."+" (Summe der Modifikationen bisher "+modifikator+")");
+		modifikator += sonstigeProbeErschwerniss;
+		VerboseOut.CONSOLE.println("Sonstige Erschwerungen betragen "+sonstigeProbeErschwerniss+" Punkte."+" (Summe der Modifikationen bisher "+modifikator+")");
 		
 		
 		//Gesamten Modifikator ausgeben
@@ -289,11 +295,11 @@ public class Rezept extends AbstractNamedObject{
 			VerboseOut.CONSOLE.println("  +"+tapStern+" (TAP*)");
 			VerboseOut.CONSOLE.println("  +"+(2*zurueckgehalteneTAP)+" (2 x zurückgehaltene TAP)");
 			if (qualitaetsBonusASP>0) VerboseOut.CONSOLE.println("  +"+qualitaetsBonusASP+" (Bonus durch den Einsatz von "+((int)Math.pow(2, qualitaetsBonusASP-1))+" ASP)");
-			VerboseOut.CONSOLE.println("  +"+sonstigerQualitaetsModifikator+" (Sonstige Qualitätsmodifikatoren)");
+			VerboseOut.CONSOLE.println("  +"+sonstigerQualitaetsBonus+" (Sonstige Qualitätsmodifikatoren)");
 			qualitaetszahl += tapStern 
 				+ (2*zurueckgehalteneTAP) 
 				+ qualitaetsBonusASP
-				+ sonstigerQualitaetsModifikator;
+				+ sonstigerQualitaetsBonus;
 			VerboseOut.CONSOLE.print("  ="+qualitaetszahl+". ");
 			byte qualitaet = 0;
 			if (qualitaetszahl < 7) qualitaet = Elixier.QUALITAET_A;

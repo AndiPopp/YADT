@@ -13,6 +13,8 @@ import java.io.ObjectOutputStream;
 import eu.sffi.dsa4.alchemie.AlchemieKonfiguration;
 import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.held.talente.Talent;
+import eu.sffi.dsa4.items.ItemPool;
+import eu.sffi.dsa4.kalender.AventurischesDatum;
 import eu.sffi.dsa4.util.Saveable;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 
@@ -36,7 +38,9 @@ public class SpielgruppenKonfiguration implements Saveable{
 	
 	public SimplePersistentNamedCollection<Talent> talentListe;
 	
+	public ItemPool itemPool;
 	
+	public AventurischesDatum aktuellesDatum;
 	
 	public SpielgruppenKonfiguration(
 			SimplePersistentNamedCollection<Held> heldenListe,
@@ -45,8 +49,10 @@ public class SpielgruppenKonfiguration implements Saveable{
 		this.heldenListe = heldenListe;
 		this.talentListe = talentListe;
 		this.alchemieKonfiguration = alchemieKonfiguration;
+		integrityCheck();
 	}
-
+	
+	
 	/**
 	 * "Leere" Standardliste
 	 * @return eine "leere" Standardliste
@@ -58,6 +64,19 @@ public class SpielgruppenKonfiguration implements Saveable{
 				AlchemieKonfiguration.getStandardKonfiguration() //Alchemie-Konfiguration
 				); 
 	}
+	
+	/**
+	 * Überschreibt nicht vorhandene Konfigurationen mit den Standardwerten
+	 */
+	public void integrityCheck(){
+		if (this.heldenListe == null) this.heldenListe = Held.emptyHeldenListe();
+		if (this.talentListe == null) this.talentListe = Talent.getStandardListe();
+		if (this.alchemieKonfiguration == null) this.alchemieKonfiguration = AlchemieKonfiguration.getStandardKonfiguration();
+		else this.alchemieKonfiguration.integrityCheck();
+		if (this.itemPool == null) this.itemPool = new ItemPool();
+		if (this.aktuellesDatum == null) this.aktuellesDatum = new AventurischesDatum(1018, 1, 1, 1);
+	}
+
 	
 	 @Override
 	 public void save(String fileName) throws IOException {
