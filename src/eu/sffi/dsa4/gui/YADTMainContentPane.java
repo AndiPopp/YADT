@@ -5,6 +5,7 @@ package eu.sffi.dsa4.gui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -26,8 +27,8 @@ public class YADTMainContentPane extends JPanel implements ChecksCurrentChanges 
 	private YADTMainFrame parent;
 	
 	private YADTNavPanel navigation;
-	private JScrollPane mainScrollPane;
-	private JPanel mainPanel;
+	private JComponent centerComponent;
+
 	
 	/**
 	 * @param spielgruppenKonfiguration
@@ -47,10 +48,23 @@ public class YADTMainContentPane extends JPanel implements ChecksCurrentChanges 
 	
 	public void updateMainPanel(JPanel panel){
 		VerboseOut.CONSOLE.println("Updating main panel to "+panel);
-		if (this.mainScrollPane != null) this.remove(this.mainScrollPane);
-		this.mainPanel = panel;
-		this.mainScrollPane = new JScrollPane(panel);
- 		this.add(this.mainScrollPane, BorderLayout.CENTER);
+		if (this.centerComponent != null) this.remove(this.centerComponent);
+		
+		if (panel instanceof ScrollCheck){
+			if (((ScrollCheck)panel).putInScrollPane()){
+				this.centerComponent = new JScrollPane(panel);
+		 		this.add(this.centerComponent, BorderLayout.CENTER);
+			}
+			else{
+				this.centerComponent = panel;
+				this.add(panel, BorderLayout.CENTER);
+			}
+		}
+		else{
+			this.centerComponent = new JScrollPane(panel);
+	 		this.add(this.centerComponent, BorderLayout.CENTER);
+		}
+		
  		this.revalidate();
 	}
 	

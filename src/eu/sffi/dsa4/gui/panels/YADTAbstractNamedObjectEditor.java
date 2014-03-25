@@ -241,10 +241,4 @@ public abstract class YADTAbstractNamedObjectEditor<T extends Named> extends YAD
 	 */
 	public abstract boolean specificActionPerformed(ActionEvent e);
 
-	/**
-	 * Überschreibt die Funktion toString() von Object um die Anzeige im 
-	 * Navigationsbaum zu verbessern.
-	 */
-	@Override
-	public abstract String toString();
 }

@@ -29,6 +29,9 @@ public class Icons {
 	public static final ImageIcon SAVE_AS_ICON = getICON("/icons/document-save-as.png");
 	public static final ImageIcon SWORD_ICON = getICON("/icons/nicubunu_Toy_Sword.png");
 	public static final ImageIcon DICE_ICON = getICON("/icons/dice.png");
+	public static final ImageIcon EDIT_ICON = getICON("/icons/edit.png");
+	public static final ImageIcon REFRESH_ICON = getICON("/icons/view-refresh.png");
+	public static final ImageIcon REFRESH_ICON_SMALL = getICON("/icons/view-refresh_small.png");
 	
 	private static final ImageIcon getICON(String fileName){
 		try {

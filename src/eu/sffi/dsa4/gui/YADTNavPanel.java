@@ -19,6 +19,7 @@ import eu.sffi.dsa4.gui.panels.YADTAbstractToolPanel;
 import eu.sffi.dsa4.gui.panels.YADTBrauPanel;
 import eu.sffi.dsa4.gui.panels.YADTElixierArtEditor;
 import eu.sffi.dsa4.gui.panels.YADTHeldenEditor;
+import eu.sffi.dsa4.gui.panels.YADTInventarPanel;
 
 /**
  * @author Andi Popp
@@ -48,6 +49,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		root.add(heldenRoot);
 			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenEditor(this.parent.spielgruppenKonfiguration, this.parent));
 			heldenRoot.add(helden);
+			DefaultMutableTreeNode inventare = new DefaultMutableTreeNode(new YADTInventarPanel(this.parent.spielgruppenKonfiguration, this.parent));
+			heldenRoot.add(inventare);
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");
 		root.add(alchemieRoot);

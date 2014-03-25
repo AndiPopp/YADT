@@ -76,7 +76,7 @@ public class Elixier extends Item{
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof Elixier)) return false;
-		return this.name.equals(((Elixier)obj).name);
+		return this.getName().equals(((Elixier)obj).getName());
 	}
 	
 	@Override

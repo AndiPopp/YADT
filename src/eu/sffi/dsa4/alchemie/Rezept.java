@@ -3,7 +3,8 @@
  */
 package eu.sffi.dsa4.alchemie;
 
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base32;
+import org.apache.commons.codec.binary.Hex;
 
 import eu.sffi.dsa4.held.talente.WuerfelTalent;
 import eu.sffi.dsa4.held.talente.WuerfelTalentWert;
@@ -278,10 +279,10 @@ public class Rezept extends AbstractNamedObject{
 		int tapStern = effektiverTalentWert.werfen(wuerfel, modifikator);
 		
 		//Ergebnis
-		//Erstelle einen zufälligen base64-String um eindeutige Namen zu vergeben
-		byte[] zufallsbytes = new byte[3];
+		//Erstelle einen zufälligen Hex-String um eindeutige Namen zu vergeben
+		byte[] zufallsbytes = new byte[4];
 		wuerfel.nextBytes(zufallsbytes);
-		String name = this.elixierArt.getName()+" (ID: "+Base64.encodeBase64String(zufallsbytes)+")";
+		String name = this.elixierArt.getName()+" (ID: "+Hex.encodeHexString(zufallsbytes)+")";
 	
 		if (tapStern < 0){ //Probe misslungen
 			VerboseOut.CONSOLE.println("Das Exlixier ist misslungen.");

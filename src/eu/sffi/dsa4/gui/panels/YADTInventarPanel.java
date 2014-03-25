@@ -4,21 +4,35 @@
 package eu.sffi.dsa4.gui.panels;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.Vector;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import eu.sffi.dsa4.SpielgruppenKonfiguration;
+import eu.sffi.dsa4.gui.ScrollCheck;
 import eu.sffi.dsa4.gui.YADTMainContentPane;
+import eu.sffi.dsa4.gui.elements.Icons;
+import eu.sffi.dsa4.gui.elements.ItemInventarPanel;
+import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.items.HatInventar;
+import eu.sffi.dsa4.items.Item;
+import eu.sffi.dsa4.util.VerboseOut;
 
 /**
  * @author Andi Popp
  *
  */
-public class YADTInventarPanel extends YADTAbstractToolPanel {
+public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionListener, ScrollCheck {
 
 	/**
 	 * 
@@ -30,9 +44,17 @@ public class YADTInventarPanel extends YADTAbstractToolPanel {
 	 */
 	private Vector<HatInventar> inventare;
 	
+	private HatInventar selectedObject;
+	
 	//Swing-Objekte
 	
+	JScrollPane mainScrollPane;
+	
+	JPanel bottomPanel;
+	
 	private JComboBox<HatInventar> inventarComboBox;
+	
+	
 	
 	//Konstruktoren und verwandte Methoden;
 	
@@ -41,9 +63,27 @@ public class YADTInventarPanel extends YADTAbstractToolPanel {
 		
 		this.inventare = new Vector<HatInventar>();
 		this.inventare.add(spielgruppenKonfiguration.itemPool);
+		for(Iterator<Held> it = spielgruppenKonfiguration.heldenListe.values().iterator();it.hasNext();){
+			this.inventare.add(it.next());
+		}
 		
-		
+		//Set Layout
+//		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setLayout(new BorderLayout());
+			
+		//Top Panel
+		this.topPanel = createTopPanel();
+		this.add(topPanel, BorderLayout.NORTH);
+		this.selectedObject = spielgruppenKonfiguration.itemPool;
+		
+		//Main Panel
+		if (this.selectedObject != null) updateMainPanel();
+		
+		//Bottom Panel
+		bottomPanel = createBottomPanel();
+		this.add(bottomPanel, BorderLayout.SOUTH);
+		
+		this.inventarComboBox.setSelectedItem(spielgruppenKonfiguration.itemPool);
 	}
 	
 	/* (non-Javadoc)
@@ -51,8 +91,16 @@ public class YADTInventarPanel extends YADTAbstractToolPanel {
 	 */
 	@Override
 	protected JPanel createTopPanel() {
-		// TODO Auto-generated method stub
-		return null;
+		JPanel topPanel = new JPanel(new FlowLayout());
+		topPanel.add(new JLabel("Inventar auswählen: "));
+		inventarComboBox = new JComboBox<HatInventar>(this.inventare);
+		inventarComboBox.addActionListener(this);
+		topPanel.add(inventarComboBox);
+		JButton refreshButton = new JButton(Icons.REFRESH_ICON_SMALL);
+		refreshButton.setActionCommand("InventarPanel:Refresh");
+		refreshButton.addActionListener(this);
+		topPanel.add(refreshButton);
+		return topPanel;
 	}
 
 	/* (non-Javadoc)
@@ -60,13 +108,64 @@ public class YADTInventarPanel extends YADTAbstractToolPanel {
 	 */
 	@Override
 	protected JPanel createMainPanel() {
-		// TODO Auto-generated method stub
-		return null;
+		JPanel mainPanel = new JPanel(new GridLayout(0, 2));
+		Vector<Item> inventar = new Vector<Item>(selectedObject.getInventar());
+		
+		int halfSize = (int) Math.ceil(inventar.size()/2.0);
+				
+		for (int i = 0; i < halfSize; i++){
+			mainPanel.add(new ItemInventarPanel(inventar.get(i)));
+			if (halfSize+i<inventar.size()) mainPanel.add(new ItemInventarPanel(inventar.get(halfSize+i)));
+		}
+		
+		//Packen in ein Panel mit passendem Layout
+		JPanel mainPanelWrapper = new JPanel();
+		mainPanelWrapper.add(mainPanel);
+		return mainPanelWrapper;
+	}
+
+	private JPanel createBottomPanel(){
+		JPanel bottomPanel = new JPanel(new FlowLayout());
+		
+		JButton addItemButton = new JButton("Füge neuen Gegenstand hinzu vom Typ: ");
+		bottomPanel.add(addItemButton);
+		
+		return bottomPanel;
 	}
 	
-	protected JPanel createBottomPanel(){
-		//TODO
-		return null;
+	//Actions
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().equals(inventarComboBox)){
+			this.selectedObject = (HatInventar) inventarComboBox.getSelectedItem();
+			updateMainPanel();
+		}
+		if (e.getActionCommand().equals("InventarPanel:Refresh")){
+			updateMainPanel();
+		}
+		else{
+			VerboseOut.CONSOLE.println("Noch nicht implementiert: "+e.getActionCommand());
+		}
+	}
+	
+	private void updateMainPanel(){
+		if (this.mainScrollPane != null) this.remove(mainScrollPane);
+		mainScrollPane = new JScrollPane(createMainPanel());
+		this.add(mainScrollPane, BorderLayout.CENTER);
+		revalidate();
+	}
+	
+	//Overrides
+	
+	@Override
+	public String toString(){
+		return "Inventare";
+	}
+
+	@Override
+	public boolean putInScrollPane() {
+		return false;
 	}
 
 }

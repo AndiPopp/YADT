@@ -57,4 +57,11 @@ public abstract class YADTAbstractToolPanel extends JPanel implements ChecksCurr
 	public void setCurrentChanges(boolean changeFlag) {
 		parent.setCurrentChanges(changeFlag);
 	}
+	
+	/**
+	 * Überschreibt die Funktion toString() von Object um die Anzeige im 
+	 * Navigationsbaum zu verbessern.
+	 */
+	@Override
+	public abstract String toString();
 }

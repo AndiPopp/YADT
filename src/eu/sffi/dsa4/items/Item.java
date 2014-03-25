@@ -3,11 +3,7 @@
  */
 package eu.sffi.dsa4.items;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import eu.sffi.dsa4.util.AbstractNamedObject;
-import eu.sffi.dsa4.util.Named;
 
 /**
  * @author Andi Popp
@@ -22,7 +18,9 @@ public class Item extends AbstractNamedObject{
 
 	public double gewicht;
 
-	public final String name;
+	private String name;
+	
+	private String notiz;
 	
 	//Konstruktoren
 	
@@ -34,6 +32,18 @@ public class Item extends AbstractNamedObject{
 
 	public String getItemTyp(){
 		return "Gegenstand";
+	}
+	
+	public void setNotiz(String notiz) {
+		this.notiz = notiz;
+	}
+	
+	public String getNotiz() {
+		return this.notiz;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	//Overrides

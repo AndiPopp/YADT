@@ -3,6 +3,7 @@ package eu.sffi.dsa4.gui.panels;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -29,6 +30,12 @@ import eu.sffi.dsa4.held.talente.WuerfelTalentWert;
 import eu.sffi.dsa4.util.SimplePersistentNamedCollection;
 import eu.sffi.dsa4.wuerfel.Wuerfel;
 
+/**
+ * Dieses Panel, dass gleichzeitig das Management-Panel für die Alchemisten-Objekte ist,
+ * dient dazu Tränke zu brauen.
+ * @author Andi Popp
+ *
+ */
 public class YADTBrauPanel extends YADTAbstractNamedObjectEditor<Alchemist>{
 
 	/**
@@ -388,6 +395,9 @@ public class YADTBrauPanel extends YADTAbstractNamedObjectEditor<Alchemist>{
 	}
 	
 	private void updateAlchemisten(){
+		boolean comboBoxIsEmptyAtMethodStart = false;
+		if (objektComboBox.getItemCount() == 0) comboBoxIsEmptyAtMethodStart = true;
+		
 		for (Iterator<Held> it = this.parent.spielgruppenKonfiguration.heldenListe.values().iterator(); it.hasNext();){
 			Held held = it.next();
 			
@@ -442,6 +452,15 @@ public class YADTBrauPanel extends YADTAbstractNamedObjectEditor<Alchemist>{
 		if (!this.objectSet.isEmpty()){
 			this.selectedObject = this.objectSet.values().iterator().next();
 			this.objektComboBox.setSelectedItem(selectedObject);
+			
+			//Falls die ComboBox vorher leer war wird kein Event ausgelöst. Update händisch.
+			if (comboBoxIsEmptyAtMethodStart) {
+				if (this.mainPanel != null) this.remove(this.mainPanel);
+				this.mainPanel = createMainPanel();
+				this.add(this.mainPanel, BorderLayout.CENTER);
+			}
+			
+			
 		}
 	}
 	
