@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -22,6 +21,7 @@ import eu.sffi.dsa4.SpielgruppenKonfiguration;
 import eu.sffi.dsa4.gui.ScrollCheck;
 import eu.sffi.dsa4.gui.YADTMainContentPane;
 import eu.sffi.dsa4.gui.elements.Icons;
+import eu.sffi.dsa4.gui.elements.ItemButton;
 import eu.sffi.dsa4.gui.elements.ItemInventarPanel;
 import eu.sffi.dsa4.held.Held;
 import eu.sffi.dsa4.items.HatInventar;
@@ -53,8 +53,6 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 	JPanel bottomPanel;
 	
 	private JComboBox<HatInventar> inventarComboBox;
-	
-	
 	
 	//Konstruktoren und verwandte Methoden;
 	
@@ -114,8 +112,8 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 		int halfSize = (int) Math.ceil(inventar.size()/2.0);
 				
 		for (int i = 0; i < halfSize; i++){
-			mainPanel.add(new ItemInventarPanel(inventar.get(i)));
-			if (halfSize+i<inventar.size()) mainPanel.add(new ItemInventarPanel(inventar.get(halfSize+i)));
+			mainPanel.add(new ItemInventarPanel(inventar.get(i), this));
+			if (halfSize+i<inventar.size()) mainPanel.add(new ItemInventarPanel(inventar.get(halfSize+i),this));
 		}
 		
 		//Packen in ein Panel mit passendem Layout
@@ -141,7 +139,11 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 			this.selectedObject = (HatInventar) inventarComboBox.getSelectedItem();
 			updateMainPanel();
 		}
-		if (e.getActionCommand().equals("InventarPanel:Refresh")){
+		else if (e.getSource() instanceof ItemButton){
+			ItemButton itemButton = (ItemButton) e.getSource();
+			itemButton.itemContextMenu.show(itemButton, 0, 0);
+		}
+		else if (e.getActionCommand().equals("InventarPanel:Refresh")){
 			updateMainPanel();
 		}
 		else{
@@ -155,6 +157,7 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 		this.add(mainScrollPane, BorderLayout.CENTER);
 		revalidate();
 	}
+	
 	
 	//Overrides
 	

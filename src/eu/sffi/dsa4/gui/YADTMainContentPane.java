@@ -56,8 +56,9 @@ public class YADTMainContentPane extends JPanel implements ChecksCurrentChanges 
 		 		this.add(this.centerComponent, BorderLayout.CENTER);
 			}
 			else{
-				this.centerComponent = panel;
-				this.add(panel, BorderLayout.CENTER);
+				this.centerComponent = new JPanel(new BorderLayout());
+				this.centerComponent.add(panel);
+				this.add(this.centerComponent, BorderLayout.CENTER);
 			}
 		}
 		else{

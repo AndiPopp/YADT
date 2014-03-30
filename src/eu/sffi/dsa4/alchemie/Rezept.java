@@ -3,7 +3,6 @@
  */
 package eu.sffi.dsa4.alchemie;
 
-import org.apache.commons.codec.binary.Base32;
 import org.apache.commons.codec.binary.Hex;
 
 import eu.sffi.dsa4.held.talente.WuerfelTalent;

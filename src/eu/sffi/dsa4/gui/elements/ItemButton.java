@@ -3,6 +3,8 @@
  */
 package eu.sffi.dsa4.gui.elements;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 
 import eu.sffi.dsa4.items.Item;
@@ -20,8 +22,12 @@ public class ItemButton extends JButton {
 
 	public final Item item;
 	
-	public ItemButton(Item item){
+	public final ItemContextMenu itemContextMenu;
+	
+	public ItemButton(Item item, ActionListener actionListener){
 		super(Icons.EDIT_ICON);
 		this.item = item;
+		this.addActionListener(actionListener);
+		itemContextMenu = new ItemContextMenu(item, actionListener);
 	}
 }
