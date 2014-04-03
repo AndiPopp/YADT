@@ -34,6 +34,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 	private JTree navigation;
 	private YADTMainContentPane parent;
 	
+	public YADTInventarPanel inventarPanel;
+	
 	public YADTNavPanel(YADTMainContentPane parent) {
 		
 		//Globale Variablen füllen
@@ -49,7 +51,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 		root.add(heldenRoot);
 			DefaultMutableTreeNode helden = new DefaultMutableTreeNode(new YADTHeldenEditor(this.parent.spielgruppenKonfiguration, this.parent));
 			heldenRoot.add(helden);
-			DefaultMutableTreeNode inventare = new DefaultMutableTreeNode(new YADTInventarPanel(this.parent.spielgruppenKonfiguration, this.parent));
+			this.inventarPanel = new YADTInventarPanel(this.parent);
+			DefaultMutableTreeNode inventare = new DefaultMutableTreeNode(inventarPanel);
 			heldenRoot.add(inventare);
 	
 		DefaultMutableTreeNode alchemieRoot = new DefaultMutableTreeNode("Alchemielabor");

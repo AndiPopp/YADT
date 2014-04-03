@@ -14,8 +14,9 @@ public interface Verbrauchbar {
 	 * auch Items mit mehreren Anwedungen kann, gibt die Funktion zurück
 	 * ob das Item vollständig verbraucht ist.
 	 * @return true wenn das Item vollständig verbraucht ist, false sonst
+	 * @throws InventarException wenn das Item bereits vollständig verbraucht war
 	 */
-	public boolean verbrauchen();
+	public boolean verbrauchen() throws InventarException;
 	
 	/**
 	 * Gibt die Anzahl noch verbleibender Anwendungen für dieses verbrauchbare

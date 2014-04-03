@@ -56,23 +56,15 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 	
 	//Konstruktoren und verwandte Methoden;
 	
-	public YADTInventarPanel(SpielgruppenKonfiguration spielgruppenKonfiguration, YADTMainContentPane parent){
+	public YADTInventarPanel(YADTMainContentPane parent){
 		super(parent);
-		
-		this.inventare = new Vector<HatInventar>();
-		this.inventare.add(spielgruppenKonfiguration.itemPool);
-		for(Iterator<Held> it = spielgruppenKonfiguration.heldenListe.values().iterator();it.hasNext();){
-			this.inventare.add(it.next());
-		}
+		SpielgruppenKonfiguration spielgruppenKonfiguration = this.parent.spielgruppenKonfiguration;
 		
 		//Set Layout
-//		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setLayout(new BorderLayout());
 			
 		//Top Panel
-		this.topPanel = createTopPanel();
-		this.add(topPanel, BorderLayout.NORTH);
-		this.selectedObject = spielgruppenKonfiguration.itemPool;
+		updateTopPanel();
 		
 		//Main Panel
 		if (this.selectedObject != null) updateMainPanel();
@@ -129,6 +121,22 @@ public class YADTInventarPanel extends YADTAbstractToolPanel implements ActionLi
 		bottomPanel.add(addItemButton);
 		
 		return bottomPanel;
+	}
+	
+	public void updateTopPanel(){
+		SpielgruppenKonfiguration spielgruppenKonfiguration = this.parent.spielgruppenKonfiguration;
+
+		this.inventare = new Vector<HatInventar>();
+		this.inventare.add(spielgruppenKonfiguration.itemPool);
+		for(Iterator<Held> it = spielgruppenKonfiguration.heldenListe.values().iterator();it.hasNext();){
+			this.inventare.add(it.next());
+		}
+		
+		if (this.topPanel != null) this.remove(topPanel);
+		this.topPanel = createTopPanel();
+		this.add(topPanel, BorderLayout.NORTH);
+		this.selectedObject = spielgruppenKonfiguration.itemPool;
+		this.revalidate();
 	}
 	
 	//Actions
