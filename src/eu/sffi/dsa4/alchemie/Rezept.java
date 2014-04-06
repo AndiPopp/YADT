@@ -210,9 +210,16 @@ public class Rezept extends AbstractNamedObject{
 			Wuerfel wuerfel) throws AlchemieException{
 		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+" will das Rezept "+this.name+" brauen.");
 		
-		//Erstelle einen temporären Talentwert um die zurückgehaltenen TAP einzurechnen
-		WuerfelTalentWert effektiverTalentWert = new WuerfelTalentWert((WuerfelTalent)talentWert.getTalent(), talentWert.getTAP()-zurueckgehalteneTAP, talentWert.getHeld());
+		//Erstelle einen temporären Talentwert um die zurückgehaltenen TAP und Meisterhandwerk einzurechnen
+		WuerfelTalentWert effektiverTalentWert = new WuerfelTalentWert((WuerfelTalent)talentWert.getTalent(), talentWert.getTAP()-zurueckgehalteneTAP+erleichterungMeisterhandwerk, talentWert.getHeld());
+		
 		VerboseOut.CONSOLE.println(talentWert.getHeld().getName()+"s Talentwert in "+talentWert.getTalent().getName()+" beträgt "+talentWert.getTAP()+".");		
+		VerboseOut.CONSOLE.println("Durch Meisterhandwerk wird der TAW um "+erleichterungMeisterhandwerk+" Punkte erhöht.");
+		if (erleichterungMeisterhandwerk > talentWert.getTAP()){
+			VerboseOut.CONSOLE.println("Die Erleichterung durch Meisterhandwerk ist nicht gültig (maximal TAP). Probe wird abgebrochen.");
+			VerboseOut.CONSOLE.println();
+			throw new AlchemieException("Die Erleichterung durch Meisterhandwerk ist nicht gültig (maximal TAP).");
+		}
 		VerboseOut.CONSOLE.println("Er/Sie hält "+zurueckgehalteneTAP+" TAP zurück. Der effektive Talentwert beträgt damit "+effektiverTalentWert.getTAP()+".");
 		if (zurueckgehalteneTAP > 0 && (zurueckgehalteneTAP < 2 || zurueckgehalteneTAP > talentWert.getTAP()-this.brauSchwierigkeit)){
 			VerboseOut.CONSOLE.println("Die zurückgehaltenen TAP sind nicht gültig (mindestens 2, maximal TAP-Brauschwierigkeit). Probe wird abgebrochen.");
@@ -222,9 +229,7 @@ public class Rezept extends AbstractNamedObject{
 		
 		//PROBEMODIFIKATOREN
 		int modifikator = 0;
-		//Meisterhandwerk
-		modifikator -= erleichterungMeisterhandwerk;
-		VerboseOut.CONSOLE.println("Durch Meisterhandwerk wird die Probe um "+erleichterungMeisterhandwerk+" Punkt erleichtert."+" (Summe der Modifikationen bisher "+modifikator+")");
+		
 		//Modifikatoren für die Laborstufe
 		if (labor-this.labor == 2) { //zwei stufen besser
 			modifikator -= 3; 
