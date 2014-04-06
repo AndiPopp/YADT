@@ -26,7 +26,7 @@ public class YADTMainContentPane extends JPanel implements ChecksCurrentChanges 
 	public final SpielgruppenKonfiguration spielgruppenKonfiguration;
 	private YADTMainFrame parent;
 	
-	private YADTNavPanel navigation;
+	public YADTNavPanel navigation;
 	private JComponent centerComponent;
 
 	

@@ -38,6 +38,7 @@ public abstract class YADTAbstractNameConstructableObjectEditor<T extends Abstra
 				if (neuerName.equals("")) JOptionPane.showMessageDialog(this, "Name darf nicht leer sein", "Fehler", JOptionPane.ERROR_MESSAGE);
 				else newObject(neuerName);		
 			}
+			specficLevel2ActionPerformed(e); //Gib die new action zusätzlich an die konkrete Klasse für weitere Aktionen
 			return true;
 	    }
 		return this.specficLevel2ActionPerformed(e);

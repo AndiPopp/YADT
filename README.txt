@@ -13,3 +13,5 @@ Dieses Projekt wurde mit Eclipse entwickelt. Auf folgende Weise kann dieses Proj
 1.) Clonen des Repositories mittels 'git clone https://github.com/AndiPopp/YADT.git'
 2.) Erstellen eines neuen Java-Projekts im geclonten Ordner
 3.) Einbinden der Bibliotheken unter 'lib/' in den Build Path
+4.) Einbinden des Ordners 'res' als source folder in den Build Path
+

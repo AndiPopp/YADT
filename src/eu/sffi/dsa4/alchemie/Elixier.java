@@ -3,14 +3,16 @@
  */
 package eu.sffi.dsa4.alchemie;
 
+import eu.sffi.dsa4.items.InventarException;
 import eu.sffi.dsa4.items.Item;
+import eu.sffi.dsa4.items.Verbrauchbar;
 import eu.sffi.dsa4.kalender.AventurischesDatum;
 
 /**
- * @author Andi Popp
  * Eine Portion eines bestimmten Elixiers
+ * @author Andi Popp
  */
-public class Elixier extends Item{
+public class Elixier extends Item implements Verbrauchbar{
 
 	/**
 	 * 
@@ -54,6 +56,11 @@ public class Elixier extends Item{
 	public final AventurischesDatum haltbarkeitsDatum;
 	
 	/**
+	 * Die Anzahl der Anwendungen, hier 1 oder 0
+	 */
+	private int anwendungen;
+	
+	/**
 	 * @param name
 	 * @param art
 	 * @param qualitaet
@@ -65,6 +72,7 @@ public class Elixier extends Item{
 		this.art = art;
 		this.qualitaet = qualitaet;
 		this.haltbarkeitsDatum = haltbarkeitsDatum;
+		this.anwendungen = 1;
 	}
 	
 	public char getBuchstabeQualitaet(){
@@ -82,5 +90,17 @@ public class Elixier extends Item{
 	@Override
 	public String getItemTyp(){
 		return "Elixier";
+	}
+
+	@Override
+	public boolean verbrauchen() throws InventarException{
+		if (this.anwendungen < 1) throw new InventarException("Das Item "+this.getName()+" ist bereits vollständig verbraucht.");
+		this.anwendungen--;
+		return true;
+	}
+
+	@Override
+	public int getAwendungen() {
+		return this.anwendungen;
 	}
 }

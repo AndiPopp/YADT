@@ -189,7 +189,11 @@ public class YADTHeldenEditor extends YADTAbstractNameConstructableObjectEditor<
 
 	@Override
 	public boolean specficLevel2ActionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("HeldenEditor:TalentHinzufügen")) {
+		if (e.getActionCommand().equals("NamedObjectEditor:New")){
+			this.parent.navigation.inventarPanel.updateTopPanel();
+			return true;
+		}
+		else if (e.getActionCommand().equals("HeldenEditor:TalentHinzufügen")) {
 			addTalent();
 			return true;
 		}
