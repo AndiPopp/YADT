@@ -63,7 +63,8 @@ public class YADTNavPanel extends JPanel implements TreeSelectionListener{
 			alchemieRoot.add(rezeptDatenbank);
 				DefaultMutableTreeNode elixierArtEditorNode = new DefaultMutableTreeNode(new YADTElixierArtEditor(this.parent.spielgruppenKonfiguration.alchemieKonfiguration, this.parent));
 				rezeptDatenbank.add(elixierArtEditorNode);
-			
+		
+
 		
 		
 		//Tree erstellen und konfigurieren
